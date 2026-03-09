@@ -344,16 +344,7 @@ let myScore=parseInt(localStorage.getItem('cosmoscore')||'0');
 let myName=localStorage.getItem('cosmoname')||'';
 function updateCreditsDisplay(){document.getElementById('navCredits').textContent=myCredits.toLocaleString();}
 updateCreditsDisplay();
-function buyCredits(amount,stripeUrl){
-  window.open(stripeUrl,'_blank');
-  setTimeout(()=>{
-    if(confirm('Payment complete? Click OK to add '+amount+' credits!')){
-      if(!myName){myName=prompt('Enter your player name for leaderboard:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}
-      myCredits+=amount;localStorage.setItem('cosmocredits',myCredits);updateCreditsDisplay();launchConfetti();
-      showResult(true,'⭐','CREDITS ADDED!',amount.toLocaleString()+' Credits','You now have '+myCredits.toLocaleString()+' Cosmo Credits! Start playing!');
-    }
-  },8000);
-}
+function buyCredits(amount,stripeUrl){if(!myName){myName=prompt('Enter your name:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}window.location.href=stripeUrl;}
 const urlParams=new URLSearchParams(window.location.search);
 const paidParam=urlParams.get('paid');
 if(paidParam){const cm={spin:100,scratch:600,lotto:1500,big:5000};const amt=cm[paidParam]||100;if(!myName){myName=prompt('Welcome! Enter your player name:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}myCredits+=amt;localStorage.setItem('cosmocredits',myCredits);updateCreditsDisplay();setTimeout(()=>showResult(true,'⭐','CREDITS ADDED!',amt.toLocaleString()+' Credits','Welcome '+myName+'! Start playing!'),500);}
