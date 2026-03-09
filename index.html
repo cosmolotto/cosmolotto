@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>COSMOLOTTO – Buy Credits & Play | Win Weekly Cash Prizes</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+:root{--gold:#FFD700;--gold2:#FFA500;--neon:#00FFFF;--pink:#FF2D78;--green:#00FF88;--purple:#9B59FF;--dark:#03020E;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--dark);font-family:'Rajdhani',sans-serif;color:#fff;min-height:100vh;overflow-x:hidden;}
+#bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 15% 40%,rgba(0,50,100,.5) 0%,transparent 55%),radial-gradient(ellipse at 85% 20%,rgba(80,0,100,.35) 0%,transparent 50%),var(--dark);}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) infinite ease-in-out;}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(1);}50%{opacity:1;transform:scale(1.8);}}
+nav{position:relative;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:1px solid rgba(255,255,255,.06);}
+.nav-logo{font-family:'Black Ops One',cursive;font-size:1.5rem;background:linear-gradient(135deg,var(--gold),var(--pink),var(--neon));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:2px;}
+.nav-credits{background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:20px;padding:8px 16px;display:flex;align-items:center;gap:10px;}
+.nav-credits-num{font-family:'Orbitron',monospace;font-size:1rem;color:var(--gold);}
+.nav-buy-btn{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;border-radius:6px;padding:6px 14px;font-weight:700;font-size:.75rem;cursor:pointer;letter-spacing:1px;}
+.hero{position:relative;z-index:10;text-align:center;padding:50px 20px 30px;}
+.hero-badge{display:inline-block;background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);border-radius:40px;padding:6px 20px;font-size:.75rem;letter-spacing:3px;color:var(--green);text-transform:uppercase;margin-bottom:16px;animation:pbadge 2s infinite;}
+@keyframes pbadge{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,.3);}50%{box-shadow:0 0 0 8px rgba(0,255,136,0);}}
+.hero-title{font-family:'Black Ops One',cursive;font-size:clamp(2.5rem,9vw,5.5rem);line-height:1;background:linear-gradient(135deg,#fff 0%,var(--gold) 40%,var(--pink) 70%,var(--neon) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;}
+.hero-sub{font-size:1rem;color:rgba(255,255,255,.5);letter-spacing:3px;text-transform:uppercase;margin-bottom:24px;}
+.prize-display{display:inline-block;background:rgba(255,215,0,.07);border:2px solid rgba(255,215,0,.3);border-radius:20px;padding:18px 40px;margin-bottom:30px;}
+.pd-label{font-size:.7rem;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:4px;}
+.pd-amount{font-family:'Orbitron',monospace;font-size:clamp(1.8rem,6vw,3.5rem);background:linear-gradient(90deg,var(--gold),#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:jglow 2s infinite;}
+@keyframes jglow{0%,100%{filter:drop-shadow(0 0 8px rgba(255,215,0,.4));}50%{filter:drop-shadow(0 0 28px rgba(255,215,0,1));}}
+.pd-sub{font-size:.72rem;color:rgba(255,255,255,.35);margin-top:4px;}
+.stats-row{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;}
+.stat{text-align:center;}.stat-num{font-family:'Orbitron',monospace;font-size:1.3rem;color:var(--neon);}
+.stat-label{font-size:.65rem;letter-spacing:2px;color:rgba(255,255,255,.35);text-transform:uppercase;}
+.section{position:relative;z-index:10;max-width:1100px;margin:0 auto;padding:0 24px 50px;}
+.sec-title{font-family:'Black Ops One',cursive;font-size:1.4rem;color:var(--gold);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;}
+.sec-sub{font-size:.82rem;color:rgba(255,255,255,.4);letter-spacing:2px;margin-bottom:24px;}
+.winners-box{background:rgba(0,255,136,.04);border:1px solid rgba(0,255,136,.15);border-radius:16px;padding:18px;margin-bottom:36px;}
+.winners-hd{font-size:.7rem;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.ldot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:lp 1s infinite;}
+@keyframes lp{0%,100%{opacity:1;}50%{opacity:.3;}}
+.winner-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.83rem;}
+.w-name{color:rgba(255,255,255,.7);}.w-prize{color:var(--gold);font-weight:700;font-family:'Orbitron',monospace;font-size:.8rem;}.w-game{color:rgba(255,255,255,.25);font-size:.73rem;}
+.games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;}
+.game-card{background:linear-gradient(135deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;transition:all .3s;position:relative;}
+.game-card:hover{transform:translateY(-5px);border-color:rgba(255,215,0,.4);box-shadow:0 16px 50px rgba(0,0,0,.4);}
+.game-header{padding:20px 20px 0;display:flex;align-items:center;gap:14px;}
+.game-icon{font-size:2.6rem;}.game-name{font-family:'Black Ops One',cursive;font-size:1.2rem;color:#fff;}
+.game-type{font-size:.7rem;letter-spacing:3px;text-transform:uppercase;margin-top:2px;}
+.game-body{padding:16px 20px;}
+.game-desc{font-size:.88rem;color:rgba(255,255,255,.5);line-height:1.5;margin-bottom:10px;}
+.cost-badge{display:inline-block;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:6px;padding:3px 10px;font-size:.75rem;color:var(--gold);font-weight:700;}
+.game-footer{padding:0 20px 20px;display:flex;gap:8px;}
+.btn-play{flex:1;padding:13px;border:none;border-radius:10px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;}.btn-gold:hover{box-shadow:0 0 25px rgba(255,215,0,.5);}
+.btn-neon{background:linear-gradient(135deg,var(--neon),#0088cc);color:#000;}
+.btn-pink{background:linear-gradient(135deg,var(--pink),#cc0055);color:#fff;}
+.btn-green{background:linear-gradient(135deg,var(--green),#00aa55);color:#000;}
+.btn-purple{background:linear-gradient(135deg,var(--purple),#6600cc);color:#fff;}
+.hot-badge,.new-badge{position:absolute;top:14px;right:14px;font-size:.6rem;letter-spacing:2px;padding:3px 10px;border-radius:20px;font-weight:700;}
+.hot-badge{background:var(--pink);color:#fff;}.new-badge{background:var(--green);color:#000;}
+.wheel-wrap{display:flex;justify-content:center;padding:0 20px 6px;position:relative;}
+.wheel-ptr{position:absolute;top:-5px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-top:22px solid var(--gold);z-index:5;}
+#wheelCanvas{border-radius:50%;border:3px solid var(--gold);box-shadow:0 0 30px rgba(255,215,0,.2);}
+.wheel-center-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:radial-gradient(#fff,var(--gold));border:none;cursor:pointer;font-size:.5rem;font-weight:900;box-shadow:0 0 16px var(--gold);}
+.scratch-container{padding:0 20px 6px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.scratch-cell{aspect-ratio:1;background:linear-gradient(135deg,rgba(255,215,0,.15),rgba(255,165,0,.1));border:2px solid rgba(255,215,0,.3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;position:relative;overflow:hidden;}
+.scratch-cover{position:absolute;inset:0;background:linear-gradient(135deg,#555,#333);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:rgba(255,255,255,.3);transition:opacity .3s;}
+.slots-container{padding:0 20px 6px;}
+.slots-reels{display:flex;gap:8px;justify-content:center;margin-bottom:10px;}
+.reel{width:65px;height:82px;background:rgba(0,0,0,.5);border:2px solid rgba(255,215,0,.3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;}
+.slots-line{height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:2px 20px;}
+.number-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;padding:0 20px 6px;}
+.num-ball{aspect-ratio:1;border-radius:50%;border:2px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;cursor:pointer;transition:.2s;background:rgba(255,255,255,.04);}
+.num-ball:hover{border-color:var(--gold);}.num-ball.selected{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border-color:var(--gold);}
+.coin-container{display:flex;justify-content:center;padding:8px 20px 6px;}
+.coin{width:90px;height:90px;position:relative;transform-style:preserve-3d;}
+.coin-face{position:absolute;inset:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;backface-visibility:hidden;border:3px solid var(--gold);}
+.coin-heads{background:radial-gradient(circle,#ffd700,#b8860b);}.coin-tails{background:radial-gradient(circle,#c0c0c0,#696969);transform:rotateY(180deg);}
+.coin.flipping{animation:coinflip 1s ease-in-out forwards;}
+@keyframes coinflip{0%{transform:rotateY(0);}50%{transform:rotateY(900deg);}100%{transform:rotateY(var(--end-rot,0deg));}}
+.dice-container{display:flex;justify-content:center;gap:16px;padding:8px 20px 6px;}
+.die{width:65px;height:65px;background:linear-gradient(135deg,#fff,#ddd);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:2rem;box-shadow:0 4px 12px rgba(0,0,0,.5);}
+.die.rolling{animation:roll-die .5s ease-in-out;}
+@keyframes roll-die{0%,100%{transform:rotate(0);}25%{transform:rotate(-18deg);}75%{transform:rotate(18deg);}}
+.credits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px;}
+.credit-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:22px;text-align:center;transition:.3s;cursor:pointer;position:relative;overflow:hidden;}
+.credit-card:hover{border-color:var(--gold);background:rgba(255,215,0,.06);transform:translateY(-4px);}
+.credit-card.popular{border-color:var(--pink);}
+.credit-card.popular::before{content:'BEST VALUE';position:absolute;top:10px;right:-20px;background:var(--pink);color:#fff;font-size:.55rem;letter-spacing:2px;padding:3px 30px;transform:rotate(35deg);font-weight:700;}
+.credit-icon{font-size:2.4rem;margin-bottom:10px;}
+.credit-name{font-family:'Black Ops One',cursive;font-size:1rem;color:#fff;margin-bottom:4px;}
+.credit-price{font-family:'Orbitron',monospace;font-size:2rem;color:var(--gold);margin:8px 0;}
+.credit-desc{font-size:.78rem;color:rgba(255,255,255,.4);margin-bottom:14px;}
+.credit-btn{width:100%;padding:11px;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:8px;color:#000;font-family:'Rajdhani',sans-serif;font-weight:900;font-size:.85rem;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:.2s;}
+.credit-btn:hover{box-shadow:0 0 24px rgba(255,215,0,.5);}
+.pay-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:20px;}
+.pay-chip{background:rgba(255,255,255,.06);border-radius:8px;padding:7px 14px;font-size:.78rem;}
+.lb-row{display:grid;grid-template-columns:40px 1fr auto auto;gap:12px;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.04);align-items:center;}
+.lb-header{background:rgba(255,215,0,.08);font-size:.7rem;letter-spacing:2px;color:rgba(255,255,255,.4);text-transform:uppercase;}
+.overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px;}
+.overlay.on{display:flex;}
+.modal{background:linear-gradient(145deg,#0d0920,#1a0830);border:1px solid rgba(255,215,0,.25);border-radius:24px;padding:32px;max-width:420px;width:100%;position:relative;animation:popin .35s cubic-bezier(.34,1.56,.64,1);}
+@keyframes popin{from{transform:scale(.6);opacity:0;}to{transform:scale(1);opacity:1;}}
+.modal-x{position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(255,255,255,.3);font-size:1.4rem;cursor:pointer;}
+.modal-ico{font-size:3rem;text-align:center;margin-bottom:10px;}
+.modal-ttl{font-family:'Black Ops One',cursive;font-size:1.6rem;color:var(--gold);text-align:center;margin-bottom:4px;}
+.modal-price{font-family:'Orbitron',monospace;font-size:1.4rem;color:var(--neon);text-align:center;margin-bottom:4px;}
+.modal-win{color:var(--gold);font-size:.88rem;text-align:center;margin-bottom:16px;}
+.modal-desc{color:rgba(255,255,255,.5);font-size:.85rem;text-align:center;line-height:1.5;margin-bottom:18px;}
+.modal-pay-btn{width:100%;padding:15px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;font-family:'Rajdhani',sans-serif;font-weight:900;font-size:1.05rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:.2s;margin-bottom:8px;}
+.modal-pay-btn:hover{box-shadow:0 0 36px rgba(255,215,0,.5);}
+.modal-note{font-size:.65rem;color:rgba(255,255,255,.25);text-align:center;line-height:1.6;}
+.result-ico{font-size:4.5rem;text-align:center;margin-bottom:10px;animation:bounceIn .5s cubic-bezier(.34,1.56,.64,1);}
+@keyframes bounceIn{from{transform:scale(0);}to{transform:scale(1);}}
+.result-amount{font-family:'Orbitron',monospace;font-size:3rem;text-align:center;color:var(--gold);animation:jglow 1s infinite;}
+.result-msg{color:rgba(255,255,255,.5);text-align:center;font-size:.88rem;line-height:1.5;margin:10px 0 18px;}
+.how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;}
+.how-step{text-align:center;padding:20px 14px;}
+.how-num{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;font-family:'Black Ops One',cursive;font-size:1.4rem;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
+.how-ttl{font-weight:700;font-size:.95rem;margin-bottom:5px;}
+.how-desc{font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.5;}
+footer{position:relative;z-index:10;text-align:center;padding:28px 20px;border-top:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.25);font-size:.72rem;line-height:2;}
+.confetti-piece{position:fixed;pointer-events:none;z-index:2000;animation:cfall var(--dur,4s) linear forwards;}
+@keyframes cfall{0%{transform:translateY(-10vh) rotate(0);opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+@media(max-width:600px){nav{padding:12px 16px;}.hero{padding:36px 16px 24px;}.section{padding:0 16px 36px;}}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<nav>
+  <div class="nav-logo">🌌 COSMOLOTTO</div>
+  <div class="nav-credits">
+    <span style="font-size:.75rem;color:rgba(255,255,255,.4);">⭐</span>
+    <span class="nav-credits-num" id="navCredits">0</span>
+    <span style="font-size:.72rem;color:rgba(255,255,255,.35);">credits</span>
+    <button class="nav-buy-btn" onclick="document.getElementById('buySection').scrollIntoView({behavior:'smooth'})">+ BUY</button>
+  </div>
+</nav>
+<div class="hero">
+  <div class="hero-badge">🔴 <span id="onlineCount">3,847</span> Players Online Worldwide</div>
+  <div class="hero-title">PLAY &amp; WIN<br>REAL MONEY</div>
+  <div class="hero-sub">Buy Credits · Play 6 Games · Top Players Win Cash</div>
+  <div class="prize-display">
+    <div class="pd-label">🏆 This Week's Prize Pool</div>
+    <div class="pd-amount" id="prizePool">£500</div>
+    <div class="pd-sub">Top 3 players win cash every Friday · Paid via Stripe</div>
+  </div>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num" id="playersCount">18,472</div><div class="stat-label">Players Today</div></div>
+    <div class="stat"><div class="stat-num">£2.1M</div><div class="stat-label">Credits Sold</div></div>
+    <div class="stat"><div class="stat-num">150+</div><div class="stat-label">Countries</div></div>
+    <div class="stat"><div class="stat-num">Every Friday</div><div class="stat-label">Prize Payout</div></div>
+  </div>
+</div>
+<div class="section">
+  <div class="winners-box">
+    <div class="winners-hd"><div class="ldot"></div> Live Players Right Now</div>
+    <div id="winnersList"></div>
+  </div>
+</div>
+<div class="section" id="credits" style="padding-bottom:20px;">
+  <div style="background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(0,255,136,.04));border:2px solid rgba(255,215,0,.3);border-radius:24px;padding:36px;text-align:center;">
+    <div style="font-family:'Black Ops One',cursive;font-size:1.8rem;color:var(--gold);margin-bottom:6px;">💫 Buy Cosmo Credits</div>
+    <div style="font-size:.85rem;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase;margin-bottom:24px;">Buy credits · Play all games · Top the leaderboard · Win weekly prizes</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;max-width:700px;margin:0 auto 20px;">
+      <div onclick="buyCredits(100,'https://buy.stripe.com/7sY4gsf9h40K19R6u0eQM00')" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,215,0,.2);border-radius:14px;padding:20px;cursor:pointer;transition:.2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,215,0,.2)'">
+        <div style="font-size:2rem;margin-bottom:6px;">🪙</div>
+        <div style="font-family:'Black Ops One',cursive;font-size:1.3rem;color:var(--gold);">100</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.4);margin:4px 0;">Credits</div>
+        <div style="font-size:1.3rem;font-weight:900;color:#fff;">£1</div>
+      </div>
+      <div onclick="buyCredits(500,'https://buy.stripe.com/5kQ7sEf9hfJs3hZg4AeQM01')" style="background:rgba(255,215,0,.06);border:2px solid rgba(255,215,0,.4);border-radius:14px;padding:20px;cursor:pointer;transition:.2s;position:relative;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,215,0,.4)'">
+        <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--pink);color:#fff;font-size:.6rem;letter-spacing:2px;padding:3px 12px;border-radius:20px;font-weight:700;white-space:nowrap;">🔥 BEST VALUE</div>
+        <div style="font-size:2rem;margin-bottom:6px;">💰</div>
+        <div style="font-family:'Black Ops One',cursive;font-size:1.3rem;color:var(--gold);">500</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.4);margin:4px 0;">Credits</div>
+        <div style="font-size:1.3rem;font-weight:900;color:#fff;">£5</div>
+      </div>
+      <div onclick="buyCredits(1000,'https://buy.stripe.com/aFa8wI1ir7cW8Cj5pWeQM02')" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,215,0,.2);border-radius:14px;padding:20px;cursor:pointer;transition:.2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,215,0,.2)'">
+        <div style="font-size:2rem;margin-bottom:6px;">💎</div>
+        <div style="font-family:'Black Ops One',cursive;font-size:1.3rem;color:var(--gold);">1,000</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.4);margin:4px 0;">Credits + 200 Bonus!</div>
+        <div style="font-size:1.3rem;font-weight:900;color:#fff;">£10</div>
+      </div>
+      <div onclick="buyCredits(5000,'https://buy.stripe.com/5kQeV66CL1SC19R19GeQM03')" style="background:rgba(155,89,255,.06);border:1px solid rgba(155,89,255,.3);border-radius:14px;padding:20px;cursor:pointer;transition:.2s;" onmouseover="this.style.borderColor='var(--purple)'" onmouseout="this.style.borderColor='rgba(155,89,255,.3)'">
+        <div style="font-size:2rem;margin-bottom:6px;">🌌</div>
+        <div style="font-family:'Black Ops One',cursive;font-size:1.3rem;color:var(--purple);">5,000</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.4);margin:4px 0;">Credits + 1000 Bonus!</div>
+        <div style="font-size:1.3rem;font-weight:900;color:#fff;">£50</div>
+      </div>
+    </div>
+    <div style="font-size:.75rem;color:rgba(255,255,255,.3);">💳 Pay by Card · PayPal · JazzCash · EasyPaisa · UPI · Crypto · Worldwide</div>
+  </div>
+</div><div class="section" style="padding-bottom:20px;">
+  <div style="background:rgba(155,89,255,.05);border:1px solid rgba(155,89,255,.2);border-radius:20px;padding:28px;">
+    <div style="font-family:'Black Ops One',cursive;font-size:1.4rem;color:var(--purple);text-align:center;margin-bottom:6px;">🏆 Weekly Leaderboard</div>
+    <div style="font-size:.75rem;color:rgba(255,255,255,.35);text-align:center;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;">Top player this week wins £50 cash prize!</div>
+    <div id="leaderboard"></div>
+    <div style="text-align:center;margin-top:16px;font-size:.75rem;color:rgba(255,255,255,.3);">Leaderboard resets every Monday · Prize paid via PayPal or bank transfer</div>
+  </div>
+</div><div class="section" id="games">
+  <div class="sec-title">🎮 6 Games</div>
+  <div class="sec-sub">USE CREDITS · EARN POINTS · CLIMB THE LEADERBOARD · WIN CASH</div>
+  <div class="games-grid">
+    <div class="game-card">
+      <div class="hot-badge">🔥 HOT</div>
+      <div class="game-header"><div class="game-icon">🎡</div><div><div class="game-name">Spin Wheel</div><div class="game-type" style="color:var(--purple)">Earn Points</div></div></div>
+      <div class="wheel-wrap"><div class="wheel-ptr"></div><canvas id="wheelCanvas" width="230" height="230"></canvas><button class="wheel-center-btn" onclick="openGame('spin')">GO</button></div>
+      <div class="game-body"><div class="game-desc">Spin and win bonus leaderboard points!</div><span class="cost-badge">⭐ 10 credits per spin</span></div>
+      <div class="game-footer"><button class="btn-play btn-purple" onclick="openGame('spin')">🎡 Spin Now</button></div>
+    </div>
+    <div class="game-card">
+      <div class="game-header"><div class="game-icon">💎</div><div><div class="game-name">Scratch Card</div><div class="game-type" style="color:var(--neon)">Reveal &amp; Win</div></div></div>
+      <div class="scratch-container" id="scratchGrid"></div>
+      <div class="game-body"><div class="game-desc">Scratch 3 matching symbols to win bonus points!</div><span class="cost-badge">⭐ 20 credits per card</span></div>
+      <div class="game-footer"><button class="btn-play btn-neon" onclick="openGame('scratch')">💎 Scratch Now</button></div>
+    </div>
+    <div class="game-card">
+      <div class="new-badge">⭐ NEW</div>
+      <div class="game-header"><div class="game-icon">🎰</div><div><div class="game-name">Lucky Slots</div><div class="game-type" style="color:var(--gold)">3-Reel Slots</div></div></div>
+      <div class="slots-container">
+        <div class="slots-reels"><div class="reel" id="r1">🍒</div><div class="reel" id="r2">⭐</div><div class="reel" id="r3">💰</div></div>
+        <div class="slots-line"></div>
+      </div>
+      <div class="game-body"><div class="game-desc">Match 3 symbols for massive bonus points!</div><span class="cost-badge">⭐ 10 credits per spin</span></div>
+      <div class="game-footer"><button class="btn-play btn-gold" onclick="openGame('slots')">🎰 Spin Slots</button></div>
+    </div>
+    <div class="game-card">
+      <div class="game-header"><div class="game-icon">🎱</div><div><div class="game-name">Lotto Pick</div><div class="game-type" style="color:var(--pink)">Pick 6 Numbers</div></div></div>
+      <div class="number-grid" id="numGrid"></div>
+      <div class="game-body"><div class="game-desc">Pick 6 numbers — match all 6 for the mega points jackpot!</div><span class="cost-badge">⭐ 50 credits per ticket</span></div>
+      <div class="game-footer"><button class="btn-play btn-pink" onclick="openGame('lotto')">🎱 Pick Numbers</button></div>
+    </div>
+    <div class="game-card">
+      <div class="game-header"><div class="game-icon">🪙</div><div><div class="game-name">Coin Flip</div><div class="game-type" style="color:var(--green)">50/50 Double Up</div></div></div>
+      <div class="coin-container"><div class="coin" id="coin"><div class="coin-face coin-heads">👑</div><div class="coin-face coin-tails">🌙</div></div></div>
+      <div class="game-body"><div class="game-desc">Call it right and double your leaderboard points!</div><span class="cost-badge">⭐ 20 credits per flip</span></div>
+      <div class="game-footer"><button class="btn-play btn-green" onclick="openGame('coin','heads')">👑 Heads</button><button class="btn-play btn-pink" onclick="openGame('coin','tails')">🌙 Tails</button></div>
+    </div>
+    <div class="game-card">
+      <div class="game-header"><div class="game-icon">🎲</div><div><div class="game-name">Dice Duel</div><div class="game-type" style="color:var(--gold)">Roll To Win</div></div></div>
+      <div class="dice-container"><div class="die" id="die1">⚀</div><div class="die" id="die2">⚁</div></div>
+      <div class="game-body"><div class="game-desc">Roll doubles for 5x points. Double sixes for 50x!</div><span class="cost-badge">⭐ 10 credits per roll</span></div>
+      <div class="game-footer"><button class="btn-play btn-gold" onclick="openGame('dice')">🎲 Roll Dice</button></div>
+    </div>
+  </div>
+</div>
+<div class="section" id="buySection">
+  <div class="sec-title">⭐ Buy Cosmo Credits</div>
+  <div class="sec-sub">BUY ONCE · PLAY ALL GAMES · WIN WEEKLY REAL CASH PRIZES · 150+ COUNTRIES</div>
+  <div class="credits-grid">
+    <div class="credit-card" onclick="buyCredits(100,'https://buy.stripe.com/7sY4gsf9h40K19R6u0eQM00')">
+      <div class="credit-icon">⭐</div><div class="credit-name">Starter Pack</div>
+      <div class="credit-price">£1</div><div class="credit-desc">100 Credits · 10 spins · Try all games</div>
+      <button class="credit-btn">Buy Now</button>
+    </div>
+    <div class="credit-card popular" onclick="buyCredits(600,'https://buy.stripe.com/5kQ7sEf9hfJs3hZg4AeQM01')">
+      <div class="credit-icon">💫</div><div class="credit-name">Galaxy Pack</div>
+      <div class="credit-price">£5</div><div class="credit-desc">600 Credits · 60 spins · Most popular</div>
+      <button class="credit-btn">Buy Now</button>
+    </div>
+    <div class="credit-card" onclick="buyCredits(1500,'https://buy.stripe.com/aFa8wI1ir7cW8Cj5pWeQM02')">
+      <div class="credit-icon">🌌</div><div class="credit-name">Cosmos Pack</div>
+      <div class="credit-price">£10</div><div class="credit-desc">1500 Credits · 150 spins · Serious player</div>
+      <button class="credit-btn">Buy Now</button>
+    </div>
+    <div class="credit-card" onclick="buyCredits(5000,'https://buy.stripe.com/5kQeV66CL1SC19R19GeQM03')">
+      <div class="credit-icon">👑</div><div class="credit-name">Universe Pack</div>
+      <div class="credit-price">£25</div><div class="credit-desc">5000 Credits · 500 spins · Dominate leaderboard</div>
+      <button class="credit-btn">Buy Now</button>
+    </div>
+  </div>
+  <div class="pay-chips">
+    <div class="pay-chip">💳 Visa/Mastercard</div><div class="pay-chip">🅿️ PayPal</div>
+    <div class="pay-chip">📱 JazzCash 🇵🇰</div><div class="pay-chip">💚 EasyPaisa 🇵🇰</div>
+    <div class="pay-chip">🇮🇳 UPI/Paytm</div><div class="pay-chip">🔵 Alipay 🇨🇳</div>
+    <div class="pay-chip">₿ Crypto</div><div class="pay-chip">🏦 Bank Transfer</div>
+  </div>
+</div>
+<div class="section">
+  <div class="sec-title">🏆 Live Leaderboard</div>
+  <div class="sec-sub">TOP 3 WIN REAL CASH PRIZES EVERY FRIDAY</div>
+  <div style="background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.15);border-radius:16px;overflow:hidden;">
+    <div class="lb-row lb-header"><div>Rank</div><div>Player</div><div>Score</div><div>Prize</div></div>
+    <div id="leaderboard"></div>
+  </div>
+  <div style="text-align:center;margin-top:14px;font-size:.8rem;color:rgba(255,255,255,.3);">🥇 1st: £250 &nbsp;·&nbsp; 🥈 2nd: £150 &nbsp;·&nbsp; 🥉 3rd: £100 &nbsp;·&nbsp; Paid every Friday via Stripe</div>
+</div>
+<div class="section">
+  <div class="sec-title">How It Works</div>
+  <div class="sec-sub">SIMPLE · FAIR · REWARDING · OPEN TO EVERYONE</div>
+  <div class="how-grid">
+    <div class="how-step"><div class="how-num">1</div><div class="how-ttl">Buy Credits</div><div class="how-desc">From £1 using card, PayPal, JazzCash, UPI or crypto — 150+ countries</div></div>
+    <div class="how-step"><div class="how-num">2</div><div class="how-ttl">Play Games</div><div class="how-desc">Use credits to play all 6 games and earn leaderboard points</div></div>
+    <div class="how-step"><div class="how-num">3</div><div class="how-ttl">Climb Ranks</div><div class="how-desc">The more you play the higher you rank on the global leaderboard</div></div>
+    <div class="how-step"><div class="how-num">4</div><div class="how-ttl">Win Cash</div><div class="how-desc">Top 3 players every Friday win real cash paid via Stripe to your account</div></div>
+  </div>
+</div>
+<footer>
+  <div style="font-family:'Black Ops One',cursive;font-size:1.1rem;background:linear-gradient(135deg,var(--gold),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;">🌌 COSMOLOTTO</div>
+  <div>Entertainment Platform · 18+ Only · Play Responsibly · Credits Never Expire</div>
+  <div>Weekly cash prizes paid every Friday · Open to 150+ countries worldwide</div>
+  <div>JazzCash · EasyPaisa · UPI · Alipay · Crypto · Visa/MC · PayPal · Bank Transfer</div>
+  <div style="margin-top:6px;">📧 support@cosmolotto.app · © 2026 CosmLotto Inc. All Rights Reserved</div>
+</footer>
+<div class="overlay" id="playOverlay">
+  <div class="modal">
+    <button class="modal-x" onclick="closeOverlay('playOverlay')">✕</button>
+    <div class="modal-ico" id="mIco">🎰</div>
+    <div class="modal-ttl" id="mTitle">Play</div>
+    <div class="modal-desc" id="mDesc">Spend credits and earn leaderboard points!</div>
+    <div class="modal-price" id="mCredits">⭐ 0 credits</div>
+    <div class="modal-win" id="mWin">Win bonus points!</div>
+    <button class="modal-pay-btn" onclick="spendAndPlay()">🎮 Spend Credits &amp; Play</button>
+    <div style="text-align:center;margin:8px 0;font-size:.8rem;color:rgba(255,255,255,.3);">— need more credits? —</div>
+    <button class="modal-pay-btn" style="background:rgba(255,255,255,.08);color:#fff;" onclick="closeOverlay('playOverlay');document.getElementById('buySection').scrollIntoView({behavior:'smooth'})">⭐ Buy More Credits</button>
+    <div class="modal-note" style="margin-top:10px;">Credits deducted when you play · 18+ only · Play responsibly</div>
+  </div>
+</div>
+<div class="overlay" id="resultOverlay">
+  <div class="modal">
+    <button class="modal-x" onclick="closeOverlay('resultOverlay')">✕</button>
+    <div class="result-ico" id="rIco">🎉</div>
+    <div class="modal-ttl" id="rTitle">GREAT!</div>
+    <div class="result-amount" id="rAmount">+500 pts</div>
+    <div class="result-msg" id="rMsg">Points added to your leaderboard score!</div>
+    <button class="modal-pay-btn" onclick="closeOverlay('resultOverlay')">🚀 Play Again</button>
+  </div>
+</div>
+<script>
+const bg=document.getElementById('bg');
+for(let i=0;i<150;i++){const s=document.createElement('div');s.className='star';const sz=Math.random()*2.5+.5;s.style.cssText='width:'+sz+'px;height:'+sz+'px;top:'+Math.random()*100+'%;left:'+Math.random()*100+'%;--d:'+(2+Math.random()*5)+'s;animation-delay:'+(Math.random()*5)+'s';bg.appendChild(s);}
+let players=18472,online=3847,prizePool=500;
+setInterval(()=>{players+=Math.floor(Math.random()*5);online=Math.max(3000,online+Math.floor(Math.random()*10)-3);prizePool+=Math.floor(Math.random()*8+2);document.getElementById('playersCount').textContent=players.toLocaleString();document.getElementById('onlineCount').textContent=online.toLocaleString();document.getElementById('prizePool').textContent='£'+prizePool.toLocaleString();},4000);
+let myCredits=parseInt(localStorage.getItem('cosmocredits')||'0');
+let myScore=parseInt(localStorage.getItem('cosmoscore')||'0');
+let myName=localStorage.getItem('cosmoname')||'';
+function updateCreditsDisplay(){document.getElementById('navCredits').textContent=myCredits.toLocaleString();}
+updateCreditsDisplay();
+function buyCredits(amount,stripeUrl){
+  window.open(stripeUrl,'_blank');
+  setTimeout(()=>{
+    if(confirm('Payment complete? Click OK to add '+amount+' credits!')){
+      if(!myName){myName=prompt('Enter your player name for leaderboard:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}
+      myCredits+=amount;localStorage.setItem('cosmocredits',myCredits);updateCreditsDisplay();launchConfetti();
+      showResult(true,'⭐','CREDITS ADDED!',amount.toLocaleString()+' Credits','You now have '+myCredits.toLocaleString()+' Cosmo Credits! Start playing!');
+    }
+  },8000);
+}
+const urlParams=new URLSearchParams(window.location.search);
+const paidParam=urlParams.get('paid');
+if(paidParam){const cm={spin:100,scratch:600,lotto:1500,big:5000};const amt=cm[paidParam]||100;if(!myName){myName=prompt('Welcome! Enter your player name:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}myCredits+=amt;localStorage.setItem('cosmocredits',myCredits);updateCreditsDisplay();setTimeout(()=>showResult(true,'⭐','CREDITS ADDED!',amt.toLocaleString()+' Credits','Welcome '+myName+'! Start playing!'),500);}
+const gameCost={spin:10,scratch:20,slots:10,lotto:50,coin:20,dice:10};
+const gameCfg={spin:{ico:'🎡',title:'Spin Wheel',desc:'Spin and win bonus leaderboard points!',win:'Win up to 50,000 bonus points'},scratch:{ico:'💎',title:'Scratch Card',desc:'Match 3 symbols to win points!',win:'Win up to 2,000 bonus points'},slots:{ico:'🎰',title:'Lucky Slots',desc:'Match 3 symbols for massive points!',win:'Match 3 = 10,000 bonus points'},lotto:{ico:'🎱',title:'Lotto Pick',desc:'Match 6 numbers for the jackpot!',win:'Match 6 = JACKPOT points'},coin:{ico:'🪙',title:'Coin Flip',desc:'Call it right to double your points!',win:'Correct = double points'},dice:{ico:'🎲',title:'Dice Duel',desc:'Roll doubles for 5x points!',win:'6+6 = 50x points'}};
+let curGame='',curChoice='';
+function openGame(game,choice=''){
+  if(myCredits<gameCost[game]){showResult(false,'⭐','NEED CREDITS','Buy a Pack!','You need '+gameCost[game]+' credits. Buy a pack to keep playing!');setTimeout(()=>document.getElementById('buySection').scrollIntoView({behavior:'smooth'}),1500);return;}
+  curGame=game;curChoice=choice;const c=gameCfg[game];
+  document.getElementById('mIco').textContent=c.ico;
+  document.getElementById('mTitle').textContent=c.title+(choice?' – '+choice.toUpperCase():'');
+  document.getElementById('mDesc').textContent=c.desc;
+  document.getElementById('mCredits').textContent='Costs '+gameCost[game]+' credits (You have: '+myCredits+')';
+  document.getElementById('mWin').textContent=c.win;
+  document.getElementById('playOverlay').classList.add('on');
+}
+function spendAndPlay(){closeOverlay('playOverlay');myCredits-=gameCost[curGame];localStorage.setItem('cosmocredits',myCredits);updateCreditsDisplay();setTimeout(()=>{if(curGame==='spin'){doSpin(seg=>{if(seg.p>0){const pts=seg.p*100;addScore(pts);showResult(true,'🎉','YOU WON!','+'+pts.toLocaleString()+' pts','Points added to leaderboard!');}else showResult(false,'😢','KEEP SPINNING','No points','Try again!')});}else runGame(curGame,curChoice);},300);}
+function addScore(pts){myScore+=pts;localStorage.setItem('cosmoscore',myScore);updateLeaderboard();}
+function closeOverlay(id){document.getElementById(id).classList.remove('on');}
+const wc=document.getElementById('wheelCanvas'),ctx=wc.getContext('2d');
+const segs=[{l:'500pts',c:'#FF2D78',p:5},{l:'MISS',c:'#111133',p:0},{l:'2500pts',c:'#7B2FBE',p:25},{l:'200pts',c:'#0a3060',p:2},{l:'10000pts',c:'#c8a400',p:100},{l:'MISS',c:'#111133',p:0},{l:'1000pts',c:'#0a5040',p:10},{l:'50000pts',c:'#8B0000',p:500},{l:'100pts',c:'#1a3a1a',p:1},{l:'MISS',c:'#111133',p:0},{l:'5000pts',c:'#4a1a6e',p:50},{l:'300pts',c:'#2a2a0a',p:3}];
+let wAngle=0,wSpinning=false;
+function drawWheel(a){const cx=115,cy=115,r=108,arc=2*Math.PI/segs.length;ctx.clearRect(0,0,230,230);segs.forEach((s,i)=>{const st=a+i*arc;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,st,st+arc);ctx.closePath();ctx.fillStyle=s.c;ctx.fill();ctx.strokeStyle='rgba(255,255,255,.1)';ctx.lineWidth=1;ctx.stroke();ctx.save();ctx.translate(cx,cy);ctx.rotate(st+arc/2);ctx.textAlign='right';ctx.fillStyle='#fff';ctx.font='bold 9px Rajdhani';ctx.shadowColor='rgba(0,0,0,.8)';ctx.shadowBlur=3;ctx.fillText(s.l,r-5,3);ctx.restore();});const g=ctx.createRadialGradient(cx,cy,0,cx,cy,16);g.addColorStop(0,'#fff');g.addColorStop(1,'#FFD700');ctx.beginPath();ctx.arc(cx,cy,16,0,2*Math.PI);ctx.fillStyle=g;ctx.fill();}
+drawWheel(0);
+function doSpin(onDone){if(wSpinning)return;wSpinning=true;const spins=5+Math.random()*5,extra=Math.random()*360,total=spins*360+extra,dur=4000+Math.random()*2000,start=wAngle,t0=performance.now();function anim(now){const t=Math.min((now-t0)/dur,1),ease=1-Math.pow(1-t,4);drawWheel((start+total*ease)*Math.PI/180);if(t<1){requestAnimationFrame(anim);}else{wAngle=(start+total)%360;const fa=(wAngle*Math.PI/180)%(2*Math.PI),arc=2*Math.PI/segs.length,idx=Math.floor(((2*Math.PI-fa)%(2*Math.PI))/arc)%segs.length;wSpinning=false;onDone(segs[idx]);}}requestAnimationFrame(anim);}
+const sc=document.getElementById('scratchGrid');
+const scE=['🍋','🍒','💎','⭐','🎰','🍀','💰','🔔','7️⃣'];
+for(let i=0;i<9;i++){const c=document.createElement('div');c.className='scratch-cell';c.innerHTML='<div class="scratch-cover">?</div>'+scE[i];sc.appendChild(c);}
+const ng=document.getElementById('numGrid');let selectedNums=[];
+for(let i=1;i<=45;i++){const b=document.createElement('div');b.className='num-ball';b.textContent=i;b.onclick=()=>{if(b.classList.contains('selected')){b.classList.remove('selected');selectedNums=selectedNums.filter(n=>n!==i);}else if(selectedNums.length<6){b.classList.add('selected');selectedNums.push(i);}};ng.appendChild(b);}
+const diceFaces=['⚀','⚁','⚂','⚃','⚄','⚅'];
+function runGame(g,ch){
+  if(g==='scratch'){const prizes=[0,0,0,500,1000,2000,500,1000,200];const p=prizes[Math.floor(Math.random()*prizes.length)];document.querySelectorAll('.scratch-cell').forEach((c,i)=>setTimeout(()=>c.querySelector('.scratch-cover').style.opacity='0',i*120));setTimeout(()=>{if(p>0){addScore(p);showResult(true,'💎','MATCH!','+'+p+' pts','Points added!');}else showResult(false,'😞','NO MATCH','Try Again!','Keep scratching!');},1200);}
+  else if(g==='slots'){const S=['🍒','⭐','💰','🍋','🔔','7️⃣','💎','🍀'],r1=S[Math.floor(Math.random()*8)],r2=S[Math.floor(Math.random()*8)],r3=Math.random()<.2?r1:S[Math.floor(Math.random()*8)];['r1','r2','r3'].forEach((id,i)=>setTimeout(()=>document.getElementById(id).textContent=[r1,r2,r3][i],500+i*200));setTimeout(()=>{if(r1===r2&&r2===r3){const pts=(r1==='7️⃣'||r1==='💎')?10000:5000;addScore(pts);showResult(true,'🎰','JACKPOT!','+'+pts.toLocaleString()+' pts','Three '+r1+'!');}else if(r1===r2||r2===r3||r1===r3){addScore(1000);showResult(true,'🎰','PAIR!','+1,000 pts','Matching pair!');}else showResult(false,'🎰','NO MATCH','Try Again!','So close!');},1500);}
+  else if(g==='lotto'){const draw=[];while(draw.length<6){const n=Math.floor(Math.random()*45)+1;if(!draw.includes(n))draw.push(n);}const m=selectedNums.filter(n=>draw.includes(n)).length;if(m===6){addScore(100000);showResult(true,'🎱','JACKPOT!','+100,000 pts','ALL 6 MATCHED!');}else if(m===5){addScore(10000);showResult(true,'🎱','AMAZING!','+10,000 pts','5 matches!');}else if(m===4){addScore(2000);showResult(true,'🎱','GREAT!','+2,000 pts','4 matches!');}else if(m===3){addScore(500);showResult(true,'🎱','WINNER!','+500 pts','3 matches!');}else showResult(false,'🎱','NO MATCH','Draw: '+draw.join(', '),'The draw: '+draw.join(', '));}
+  else if(g==='coin'){const res=Math.random()<.5?'heads':'tails';const coin=document.getElementById('coin');coin.style.setProperty('--end-rot',res==='heads'?'0deg':'180deg');coin.classList.add('flipping');setTimeout(()=>{coin.classList.remove('flipping');coin.style.transform='rotateY('+(res==='heads'?'0':'180')+'deg)';},1000);setTimeout(()=>{if(res===ch){addScore(400);showResult(true,'🪙','CORRECT!','+400 pts','Double points!');}else showResult(false,'🪙','WRONG!','Try Again!','It was '+res+'!');},1200);}
+  else if(g==='dice'){const d1=Math.floor(Math.random()*6)+1,d2=Math.floor(Math.random()*6)+1;['die1','die2'].forEach((id,i)=>{const el=document.getElementById(id);el.classList.add('rolling');setTimeout(()=>{el.textContent=diceFaces[[d1,d2][i]-1];el.classList.remove('rolling');},500);});setTimeout(()=>{if(d1===6&&d2===6){addScore(5000);showResult(true,'🎲','DOUBLE SIX!','+5,000 pts','50x points!');}else if(d1===d2){addScore(500);showResult(true,'🎲','DOUBLES!','+500 pts','5x points!');}else if(d1+d2>=10){addScore(200);showResult(true,'🎲','HIGH ROLL!','+200 pts','2x points!');}else showResult(false,'🎲','LOW ROLL',d1+'+'+d2,'Try again!');},700);}
+}
+function showResult(won,ico,title,amount,msg){document.getElementById('rIco').textContent=ico;document.getElementById('rTitle').textContent=title;document.getElementById('rAmount').textContent=amount;document.getElementById('rMsg').textContent=msg;document.getElementById('resultOverlay').classList.add('on');if(won)launchConfetti();}
+function launchConfetti(){const cols=['#FFD700','#FF2D78','#00FFFF','#00FF88','#9B59FF'];for(let i=0;i<50;i++)setTimeout(()=>{const c=document.createElement('div');c.className='confetti-piece';c.style.cssText='left:'+Math.random()*100+'vw;width:'+(6+Math.random()*8)+'px;height:'+(6+Math.random()*8)+'px;background:'+cols[Math.floor(Math.random()*5)]+';border-radius:'+(Math.random()>.5?'50%':'2px')+';--dur:'+(3+Math.random()*2)+'s';document.body.appendChild(c);setTimeout(()=>c.remove(),5000);},i*40);}
+const lbData=[{name:'CosmicAli 🇵🇰',score:48750,prize:'£250'},{name:'StarPlayer 🇬🇧',score:42300,prize:'£150'},{name:'LuckyRavi 🇮🇳',score:38900,prize:'£100'},{name:'GalaxyWei 🇨🇳',score:35400,prize:''},{name:'SpinMaster 🇺🇸',score:29800,prize:''},{name:'NebulaSofia 🇦🇪',score:24500,prize:''},{name:'QuantumJay 🇨🇦',score:19200,prize:''},{name:'OrbitAisha 🇳🇬',score:15600,prize:''},{name:'VegasTom 🇦🇺',score:11300,prize:''},{name:'StarlightMei 🇨🇳',score:8700,prize:''}];
+function updateLeaderboard(){
+  if(myName&&myScore>0){const ex=lbData.findIndex(p=>p.name.includes(myName));if(ex>=0)lbData[ex].score=myScore;else lbData.push({name:myName,score:myScore,prize:''});lbData.sort((a,b)=>b.score-a.score);if(lbData[0])lbData[0].prize='£250';if(lbData[1])lbData[1].prize='£150';if(lbData[2])lbData[2].prize='£100';}
+  const lb=document.getElementById('leaderboard');if(!lb)return;lb.innerHTML='';
+  const medals=['🥇','🥈','🥉'];
+  lbData.slice(0,10).forEach((p,i)=>{const row=document.createElement('div');row.className='lb-row';if(i<3)row.style.background='rgba(255,215,0,.03)';const isMe=myName&&p.name.includes(myName);row.innerHTML='<div style="font-size:1.1rem">'+(medals[i]||'#'+(i+1))+'</div><div style="font-size:.88rem;color:rgba(255,255,255,.8)">'+(isMe?'<b style="color:var(--neon)">'+p.name+' ★YOU</b>':p.name)+'</div><div style="font-family:Orbitron,monospace;font-size:.82rem;color:var(--neon)">'+p.score.toLocaleString()+'</div><div style="color:var(--gold);font-weight:700;font-size:.82rem">'+(p.prize||'—')+'</div>';lb.appendChild(row);});
+}
+updateLeaderboard();
+const wnames=['Ali K.🇵🇰','Priya S.🇮🇳','James W.🇺🇸','Wei L.🇨🇳','Emma B.🇬🇧','Carlos M.🇧🇷','Fatima H.🇵🇰','Ravi P.🇮🇳','Omar S.🇸🇦','Sofia R.🇦🇪'];
+const wactions=['bought 600 credits','spun the wheel','won 5,000 pts','scratched a card','rolled doubles','flipped heads','bought 1500 credits','won 10,000 pts','climbed leaderboard','joined the game'];
+function addWinner(){const list=document.getElementById('winnersList');const div=document.createElement('div');div.className='winner-row';div.style.cssText='opacity:0;transition:opacity .4s';div.innerHTML='<span class="w-name">'+wnames[Math.floor(Math.random()*wnames.length)]+'</span><span class="w-prize">+'+Math.floor(Math.random()*9000+500).toLocaleString()+' pts</span><span class="w-game">'+wactions[Math.floor(Math.random()*wactions.length)]+'</span>';list.prepend(div);setTimeout(()=>div.style.opacity='1',50);if(list.children.length>8)list.removeChild(list.lastChild);}
+for(let i=0;i<6;i++)setTimeout(addWinner,i*200);
+setInterval(addWinner,2500);
+</script>
+</body>
+</html>
