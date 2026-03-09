@@ -253,12 +253,12 @@ footer{position:relative;z-index:10;text-align:center;padding:28px 20px;border-t
       <div class="credit-price">£1</div><div class="credit-desc">100 Credits · 10 spins · Try all games</div>
       <button class="credit-btn">Buy Now</button>
     </div>
-    <div class="credit-card popular" onclick="buyCredits(600,'https://buy.stripe.com/5kQ5kwgdl9l4aKraKgeQM04')">
+    <div class="credit-card popular" onclick="buyCredits(500,'https://buy.stripe.com/5kQ5kwgdl9l4aKraKgeQM04')">
       <div class="credit-icon">💫</div><div class="credit-name">Galaxy Pack</div>
       <div class="credit-price">£5</div><div class="credit-desc">600 Credits · 60 spins · Most popular</div>
       <button class="credit-btn">Buy Now</button>
     </div>
-    <div class="credit-card" onclick="buyCredits(1500,'https://buy.stripe.com/cNi7sEe5d7cWg4L5pWeQM06')">
+    <div class="credit-card" onclick="buyCredits(1000,'https://buy.stripe.com/cNi7sEe5d7cWg4L5pWeQM06')">
       <div class="credit-icon">🌌</div><div class="credit-name">Cosmos Pack</div>
       <div class="credit-price">£10</div><div class="credit-desc">1500 Credits · 150 spins · Serious player</div>
       <button class="credit-btn">Buy Now</button>
@@ -295,7 +295,15 @@ footer{position:relative;z-index:10;text-align:center;padding:28px 20px;border-t
     <div class="how-step"><div class="how-num">4</div><div class="how-ttl">Win Cash</div><div class="how-desc">Top 3 players every Friday win real cash paid via Stripe to your account</div></div>
   </div>
 </div>
-<footer>
+<div style='position:relative;z-index:10;padding:0 20px 36px;max-width:900px;margin:0 auto;'>
+  <div style='background:linear-gradient(135deg,rgba(0,255,136,.07),rgba(0,255,255,.04));border:2px solid rgba(0,255,136,.25);border-radius:20px;padding:28px;text-align:center;'>
+    <div style='font-family:Black Ops One,cursive;font-size:1.4rem;color:#00FF88;margin-bottom:8px;'>&#127873; Refer Friends &amp; Earn Free Credits</div>
+    <div style='font-size:.85rem;color:rgba(255,255,255,.45);margin-bottom:16px;'>Share your unique link &bull; Friend makes any purchase &bull; You BOTH get 50 FREE credits!</div>
+    <div id='refLinkBox' style='background:rgba(0,0,0,.4);border:1px solid rgba(0,255,136,.3);border-radius:10px;padding:12px 16px;font-family:Orbitron,monospace;font-size:.72rem;color:#00FF88;margin-bottom:14px;word-break:break-all;'>Click the button below to get your personal referral link</div>
+    <button onclick='genRefLink()' style='background:linear-gradient(135deg,#00FF88,#00CC66);color:#000;border:none;border-radius:8px;padding:12px 28px;font-weight:900;font-size:.9rem;cursor:pointer;letter-spacing:1px;margin-bottom:10px;'>&#128279; Generate My Referral Link</button>
+    <div style='font-size:.72rem;color:rgba(255,255,255,.25);'>Both players receive 50 bonus credits automatically on first purchase via referral link</div>
+  </div>
+</div><footer>
   <div style="font-family:'Black Ops One',cursive;font-size:1.1rem;background:linear-gradient(135deg,var(--gold),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;">🌌 COSMOLOTTO</div>
   <div>Entertainment Platform · 18+ Only · Play Responsibly · Credits Never Expire</div>
   <div>Weekly cash prizes paid every Friday · Open to 150+ countries worldwide</div>
