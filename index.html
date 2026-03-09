@@ -337,23 +337,18 @@ let myName=localStorage.getItem('cosmoname')||'';
 function updateCreditsDisplay(){document.getElementById('navCredits').textContent=myCredits.toLocaleString();}
 updateCreditsDisplay();
 function buyCredits(amount,stripeUrl){
-  if(!myName){myName=prompt('Enter your player name for the leaderboard:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}
-  window.location.href = stripeUrl;
-}ng()+' Credits','You now have '+myCredits.toLocaleString()+' Cosmo Credits! Start playing!');
+  window.open(stripeUrl,'_blank');
+  setTimeout(()=>{
+    if(confirm('Payment complete? Click OK to add '+amount+' credits!')){
+      if(!myName){myName=prompt('Enter your player name for leaderboard:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}
+      myCredits+=amount;localStorage.setItem('cosmocredits',myCredits);updateCreditsDisplay();launchConfetti();
+      showResult(true,'⭐','CREDITS ADDED!',amount.toLocaleString()+' Credits','You now have '+myCredits.toLocaleString()+' Cosmo Credits! Start playing!');
     }
   },8000);
 }
 const urlParams=new URLSearchParams(window.location.search);
 const paidParam=urlParams.get('paid');
-const creditsParam=parseInt(urlParams.get('credits')||'0');
-const nameParam=urlParams.get('name');
-if(paidParam==='1'&&creditsParam>0){
-  if(nameParam&&!myName){myName=decodeURIComponent(nameParam);localStorage.setItem('cosmoname',myName);}
-  if(!myName){myName=prompt('Welcome! Enter your player name:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}
-  myCredits+=creditsParam;localStorage.setItem('cosmocredits',myCredits);updateCreditsDisplay();launchConfetti();
-  setTimeout(()=>showResult(true,'⭐','CREDITS ADDED!',creditsParam.toLocaleString()+' Credits','You now have '+myCredits.toLocaleString()+' credits!'),500);
-  window.history.replaceState({},'',window.location.pathname);
-}
+if(paidParam){const cm={spin:100,scratch:600,lotto:1500,big:5000};const amt=cm[paidParam]||100;if(!myName){myName=prompt('Welcome! Enter your player name:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}myCredits+=amt;localStorage.setItem('cosmocredits',myCredits);updateCreditsDisplay();setTimeout(()=>showResult(true,'⭐','CREDITS ADDED!',amt.toLocaleString()+' Credits','Welcome '+myName+'! Start playing!'),500);}
 const gameCost={spin:10,scratch:20,slots:10,lotto:50,coin:20,dice:10};
 const gameCfg={spin:{ico:'🎡',title:'Spin Wheel',desc:'Spin and win bonus leaderboard points!',win:'Win up to 50,000 bonus points'},scratch:{ico:'💎',title:'Scratch Card',desc:'Match 3 symbols to win points!',win:'Win up to 2,000 bonus points'},slots:{ico:'🎰',title:'Lucky Slots',desc:'Match 3 symbols for massive points!',win:'Match 3 = 10,000 bonus points'},lotto:{ico:'🎱',title:'Lotto Pick',desc:'Match 6 numbers for the jackpot!',win:'Match 6 = JACKPOT points'},coin:{ico:'🪙',title:'Coin Flip',desc:'Call it right to double your points!',win:'Correct = double points'},dice:{ico:'🎲',title:'Dice Duel',desc:'Roll doubles for 5x points!',win:'6+6 = 50x points'}};
 let curGame='',curChoice='';
