@@ -399,5 +399,82 @@ function addWinner(){const list=document.getElementById('winnersList');const div
 for(let i=0;i<6;i++)setTimeout(addWinner,i*200);
 setInterval(addWinner,2500);
 </script>
+<!-- MorvenWallet SDK + MRV HUD -->
+<script src="https://morven-sdk.vercel.app/morven.js"></script>
+<script>
+// MRV HUD
+const mrvHud = document.createElement('div');
+mrvHud.id = 'mrv-hud';
+mrvHud.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:200;background:rgba(10,10,20,.9);border:1px solid rgba(224,200,117,.25);border-radius:12px;padding:10px 16px;font-family:Orbitron,monospace;font-size:.75rem;color:#e0c875;cursor:pointer;backdrop-filter:blur(8px);';
+const hudInner = document.createElement('div');
+hudInner.style.cssText='display:flex;align-items:center;gap:8px;';
+const hudIcon = document.createElement('span');
+hudIcon.textContent = '◈';
+hudIcon.style.fontSize = '1rem';
+const hudLabel = document.createElement('span');
+hudLabel.id = 'mrv-hud-bal';
+hudLabel.textContent = 'Connect Wallet';
+hudInner.appendChild(hudIcon);
+hudInner.appendChild(hudLabel);
+mrvHud.appendChild(hudInner);
+document.body.appendChild(mrvHud);
+
+let _mrvJwt = null;
+
+mrvHud.addEventListener('click', async function() {
+  try {
+    const result = await morvenWallet.login();
+    _mrvJwt = result.jwt;
+    const bal = await morvenWallet.getBalance(_mrvJwt).catch(function(){ return {mrv:0}; });
+    document.getElementById('mrv-hud-bal').textContent = bal.mrv.toFixed(1) + ' MRV';
+  } catch(e) {
+    console.log('MRV wallet:', e.message);
+  }
+});
+
+// Post-win MRV airdrop (called after high score)
+async function rewardMrvWin(points) {
+  if (!_mrvJwt) return;
+  const MRV_PER_1000_PTS = 1;
+  const reward = Math.max(1, Math.floor(points / 5000) * MRV_PER_1000_PTS);
+  try {
+    const userPld = JSON.parse(atob(_mrvJwt.split('.')[1]));
+    const wid = userPld.wallet_id || userPld.email;
+    await fetch('https://morven-wallet-api.onrender.com/api/airdrop', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ to: wid, amount: reward, reason: 'cosmolotto_win' })
+    }).catch(function(){});
+    const balEl = document.getElementById('mrv-hud-bal');
+    const cur = parseFloat(balEl.textContent) || 0;
+    balEl.textContent = (cur + reward).toFixed(1) + ' MRV';
+    // Show toast
+    const t = document.createElement('div');
+    t.style.cssText='position:fixed;bottom:80px;right:20px;z-index:300;background:#1a1a2e;border:1px solid #e0c875;border-radius:8px;padding:10px 16px;color:#e0c875;font-size:.82rem;font-family:Orbitron,monospace;';
+    t.textContent = '+' + reward + ' MRV earned!';
+    document.body.appendChild(t);
+    setTimeout(function(){ document.body.removeChild(t); }, 3000);
+  } catch(e) { console.log('MRV airdrop:', e.message); }
+}
+
+// Hook into addScore to trigger MRV reward at milestones
+const _origAddScore = typeof addScore === 'function' ? addScore : null;
+if (_origAddScore) {
+  window.addScore = function(n) {
+    _origAddScore(n);
+    if (_mrvJwt && typeof myScore !== 'undefined' && myScore > 0 && myScore % 5000 < n) {
+      rewardMrvWin(n);
+    }
+  };
+}
+
+// Restore wallet session
+if (typeof morvenWallet !== 'undefined' && morvenWallet.isLoggedIn()) {
+  morvenWallet.getBalance().then(function(b) {
+    document.getElementById('mrv-hud-bal').textContent = b.mrv.toFixed(1) + ' MRV';
+    _mrvJwt = morvenWallet.getJwt();
+  }).catch(function(){});
+}
+</script>
 </body>
 </html>
