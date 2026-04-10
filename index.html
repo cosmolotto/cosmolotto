@@ -119,6 +119,20 @@ nav{position:relative;z-index:20;display:flex;align-items:center;justify-content
 .how-ttl{font-weight:700;font-size:.95rem;margin-bottom:5px;}
 .how-desc{font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.5;}
 footer{position:relative;z-index:10;text-align:center;padding:28px 20px;border-top:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.25);font-size:.72rem;line-height:2;}
+.crypto-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;justify-content:center;}
+.crypto-tab{padding:7px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:rgba(255,255,255,.6);cursor:pointer;font-size:.75rem;font-weight:700;letter-spacing:1px;transition:.2s;}
+.crypto-tab.active{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border-color:var(--gold);}
+.crypto-addr{background:rgba(0,0,0,.5);border:1px solid rgba(255,215,0,.25);border-radius:10px;padding:11px 13px;font-family:Orbitron,monospace;font-size:.62rem;color:var(--neon);word-break:break-all;margin:6px 0 12px;cursor:pointer;transition:.2s;-webkit-user-select:all;user-select:all;}
+.crypto-addr:hover{border-color:var(--gold);}
+.sp-cell{aspect-ratio:1;background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(255,165,0,.07));border:2px solid rgba(255,215,0,.25);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;position:relative;overflow:hidden;cursor:pointer;transition:border-color .2s;}
+.sp-cell:hover{border-color:rgba(255,215,0,.6);}
+.sp-cover{position:absolute;inset:0;background:linear-gradient(135deg,#3a3a5c,#222240);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:rgba(255,255,255,.25);transition:opacity .25s;cursor:pointer;}
+.modal-crypto{max-width:460px;}
+.modal-scratch{max-width:380px;}
+.scratch-subtitle{font-size:.8rem;color:rgba(255,255,255,.45);text-align:center;margin-bottom:14px;}
+.scratch-play-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.scratch-progress{text-align:center;font-size:.8rem;color:rgba(255,255,255,.35);letter-spacing:2px;}
+.modal-note-mt{margin-top:12px;}
 .confetti-piece{position:fixed;pointer-events:none;z-index:2000;animation:cfall var(--dur,4s) linear forwards;}
 @keyframes cfall{0%{transform:translateY(-10vh) rotate(0);opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
 @media(max-width:600px){nav{padding:12px 16px;}.hero{padding:36px 16px 24px;}.section{padding:0 16px 36px;}}
@@ -162,30 +176,30 @@ footer{position:relative;z-index:10;text-align:center;padding:28px 20px;border-t
     <div style="font-family:'Black Ops One',cursive;font-size:1.8rem;color:var(--gold);margin-bottom:6px;">💫 Buy Cosmo Credits</div>
     <div style="font-size:.85rem;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase;margin-bottom:24px;">Buy credits · Play all games · Top the leaderboard · Win weekly prizes</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;max-width:700px;margin:0 auto 20px;">
-      <div onclick="buyCredits(100,'https://buy.stripe.com/8x26oA4uDeFo5q7g4AeQM05')" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,215,0,.2);border-radius:14px;padding:20px;cursor:pointer;transition:.2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,215,0,.2)'">
+      <div onclick="buyCredits(100)" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,215,0,.2);border-radius:14px;padding:20px;cursor:pointer;transition:.2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,215,0,.2)'">
         <div style="font-size:2rem;margin-bottom:6px;">🪙</div>
         <div style="font-family:'Black Ops One',cursive;font-size:1.3rem;color:var(--gold);">100</div>
         <div style="font-size:.75rem;color:rgba(255,255,255,.4);margin:4px 0;">Credits</div>
         <div style="font-size:1.3rem;font-weight:900;color:#fff;">£1</div>
       </div>
-      <div onclick="buyCredits(500,'https://buy.stripe.com/5kQ5kwgdl9l4aKraKgeQM04')" style="background:rgba(255,215,0,.06);border:2px solid rgba(255,215,0,.4);border-radius:14px;padding:20px;cursor:pointer;transition:.2s;position:relative;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,215,0,.4)'">
+      <div onclick="buyCredits(500)" style="background:rgba(255,215,0,.06);border:2px solid rgba(255,215,0,.4);border-radius:14px;padding:20px;cursor:pointer;transition:.2s;position:relative;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,215,0,.4)'">
         <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--pink);color:#fff;font-size:.6rem;letter-spacing:2px;padding:3px 12px;border-radius:20px;font-weight:700;white-space:nowrap;">🔥 BEST VALUE</div>
         <div style="font-size:2rem;margin-bottom:6px;">💰</div>
         <div style="font-family:'Black Ops One',cursive;font-size:1.3rem;color:var(--gold);">500</div>
         <div style="font-size:.75rem;color:rgba(255,255,255,.4);margin:4px 0;">Credits</div>
         <div style="font-size:1.3rem;font-weight:900;color:#fff;">£5</div>
       </div>
-      <div onclick="buyCredits(1000,'https://buy.stripe.com/cNi7sEe5d7cWg4L5pWeQM06')" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,215,0,.2);border-radius:14px;padding:20px;cursor:pointer;transition:.2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,215,0,.2)'">
+      <div onclick="buyCredits(1000)" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,215,0,.2);border-radius:14px;padding:20px;cursor:pointer;transition:.2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,215,0,.2)'">
         <div style="font-size:2rem;margin-bottom:6px;">💎</div>
         <div style="font-family:'Black Ops One',cursive;font-size:1.3rem;color:var(--gold);">1,000</div>
         <div style="font-size:.75rem;color:rgba(255,255,255,.4);margin:4px 0;">Credits + 200 Bonus!</div>
         <div style="font-size:1.3rem;font-weight:900;color:#fff;">£10</div>
       </div>
-      <div onclick="buyCredits(5000,'https://buy.stripe.com/5kQ3co9OXeFodWD19GeQM07')" style="background:rgba(155,89,255,.06);border:1px solid rgba(155,89,255,.3);border-radius:14px;padding:20px;cursor:pointer;transition:.2s;" onmouseover="this.style.borderColor='var(--purple)'" onmouseout="this.style.borderColor='rgba(155,89,255,.3)'">
+      <div onclick="buyCredits(5000)" style="background:rgba(155,89,255,.06);border:1px solid rgba(155,89,255,.3);border-radius:14px;padding:20px;cursor:pointer;transition:.2s;" onmouseover="this.style.borderColor='var(--purple)'" onmouseout="this.style.borderColor='rgba(155,89,255,.3)'">
         <div style="font-size:2rem;margin-bottom:6px;">🌌</div>
         <div style="font-family:'Black Ops One',cursive;font-size:1.3rem;color:var(--purple);">5,000</div>
         <div style="font-size:.75rem;color:rgba(255,255,255,.4);margin:4px 0;">Credits + 1000 Bonus!</div>
-        <div style="font-size:1.3rem;font-weight:900;color:#fff;">£50</div>
+        <div style="font-size:1.3rem;font-weight:900;color:#fff;">£25</div>
       </div>
     </div>
     <div style="font-size:.75rem;color:rgba(255,255,255,.3);">💳 Pay by Card · PayPal · JazzCash · EasyPaisa · UPI · Crypto · Worldwide</div>
@@ -194,7 +208,7 @@ footer{position:relative;z-index:10;text-align:center;padding:28px 20px;border-t
   <div style="background:rgba(155,89,255,.05);border:1px solid rgba(155,89,255,.2);border-radius:20px;padding:28px;">
     <div style="font-family:'Black Ops One',cursive;font-size:1.4rem;color:var(--purple);text-align:center;margin-bottom:6px;">🏆 Weekly Leaderboard</div>
     <div style="font-size:.75rem;color:rgba(255,255,255,.35);text-align:center;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;">Top player this week wins £50 cash prize!</div>
-    <div id="leaderboard"></div>
+    <div id="leaderboard-mini"></div>
     <div style="text-align:center;margin-top:16px;font-size:.75rem;color:rgba(255,255,255,.3);">Leaderboard resets every Monday · Prize paid via PayPal or bank transfer</div>
   </div>
 </div><div class="section" id="games">
@@ -228,7 +242,7 @@ footer{position:relative;z-index:10;text-align:center;padding:28px 20px;border-t
       <div class="game-header"><div class="game-icon">🎱</div><div><div class="game-name">Lotto Pick</div><div class="game-type" style="color:var(--pink)">Pick 6 Numbers</div></div></div>
       <div class="number-grid" id="numGrid"></div>
       <div class="game-body"><div class="game-desc">Pick 6 numbers — match all 6 for the mega points jackpot!</div><span class="cost-badge">⭐ 50 credits per ticket</span></div>
-      <div class="game-footer"><button class="btn-play btn-pink" onclick="openGame('lotto')">🎱 Pick Numbers</button></div>
+      <div class="game-footer"><button class="btn-play btn-pink" onclick="playLotto()">🎱 Pick Numbers</button></div>
     </div>
     <div class="game-card">
       <div class="game-header"><div class="game-icon">🪙</div><div><div class="game-name">Coin Flip</div><div class="game-type" style="color:var(--green)">50/50 Double Up</div></div></div>
@@ -248,22 +262,22 @@ footer{position:relative;z-index:10;text-align:center;padding:28px 20px;border-t
   <div class="sec-title">⭐ Buy Cosmo Credits</div>
   <div class="sec-sub">BUY ONCE · PLAY ALL GAMES · WIN WEEKLY REAL CASH PRIZES · 150+ COUNTRIES</div>
   <div class="credits-grid">
-    <div class="credit-card" onclick="buyCredits(100,'https://buy.stripe.com/8x26oA4uDeFo5q7g4AeQM05')">
+    <div class="credit-card" onclick="buyCredits(100)">
       <div class="credit-icon">⭐</div><div class="credit-name">Starter Pack</div>
       <div class="credit-price">£1</div><div class="credit-desc">100 Credits · 10 spins · Try all games</div>
       <button class="credit-btn">Buy Now</button>
     </div>
-    <div class="credit-card popular" onclick="buyCredits(500,'https://buy.stripe.com/5kQ5kwgdl9l4aKraKgeQM04')">
+    <div class="credit-card popular" onclick="buyCredits(500)">
       <div class="credit-icon">💫</div><div class="credit-name">Galaxy Pack</div>
       <div class="credit-price">£5</div><div class="credit-desc">600 Credits · 60 spins · Most popular</div>
       <button class="credit-btn">Buy Now</button>
     </div>
-    <div class="credit-card" onclick="buyCredits(1000,'https://buy.stripe.com/cNi7sEe5d7cWg4L5pWeQM06')">
+    <div class="credit-card" onclick="buyCredits(1000)">
       <div class="credit-icon">🌌</div><div class="credit-name">Cosmos Pack</div>
       <div class="credit-price">£10</div><div class="credit-desc">1500 Credits · 150 spins · Serious player</div>
       <button class="credit-btn">Buy Now</button>
     </div>
-    <div class="credit-card" onclick="buyCredits(5000,'https://buy.stripe.com/5kQ3co9OXeFodWD19GeQM07')">
+    <div class="credit-card" onclick="buyCredits(5000)">
       <div class="credit-icon">👑</div><div class="credit-name">Universe Pack</div>
       <div class="credit-price">£25</div><div class="credit-desc">5000 Credits · 500 spins · Dominate leaderboard</div>
       <button class="credit-btn">Buy Now</button>
@@ -324,6 +338,27 @@ footer{position:relative;z-index:10;text-align:center;padding:28px 20px;border-t
     <div class="modal-note" style="margin-top:10px;">Credits deducted when you play · 18+ only · Play responsibly</div>
   </div>
 </div>
+<div class="overlay" id="cryptoOverlay">
+  <div class="modal modal-crypto">
+    <button class="modal-x" onclick="closeOverlay('cryptoOverlay')">✕</button>
+    <div class="modal-ico">&#x20BF;</div>
+    <div class="modal-ttl" id="cryptoTitle">Buy Credits</div>
+    <div class="modal-desc" id="cryptoDesc">Send crypto · Credits added on confirmation</div>
+    <div class="crypto-tabs" id="cryptoTabs"></div>
+    <div id="cryptoContent"></div>
+    <div class="modal-note modal-note-mt">18+ only · Play responsibly · Credits never expire</div>
+  </div>
+</div>
+<div class="overlay" id="scratchOverlay">
+  <div class="modal modal-scratch">
+    <button class="modal-x" onclick="closeOverlay('scratchOverlay')">✕</button>
+    <div class="modal-ico">&#x1F48E;</div>
+    <div class="modal-ttl">Scratch to Reveal!</div>
+    <div class="scratch-subtitle">Tap each card — match 3 to win</div>
+    <div id="scratchPlayGrid" class="scratch-play-grid"></div>
+    <div id="scratchProgress" class="scratch-progress">0 / 9 scratched</div>
+  </div>
+</div>
 <div class="overlay" id="resultOverlay">
   <div class="modal">
     <button class="modal-x" onclick="closeOverlay('resultOverlay')">✕</button>
@@ -344,10 +379,10 @@ let myScore=parseInt(localStorage.getItem('cosmoscore')||'0');
 let myName=localStorage.getItem('cosmoname')||'';
 function updateCreditsDisplay(){document.getElementById('navCredits').textContent=myCredits.toLocaleString();}
 updateCreditsDisplay();
-function buyCredits(amount,stripeUrl){if(!myName){myName=prompt('Enter your name:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}window.location.href=stripeUrl;}
+function buyCredits(amount){if(!myName){myName=prompt('Enter your name:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}cryptoPkg=CRYPTO_PKG[amount]||CRYPTO_PKG[100];activeCryptoTab='eth';renderCryptoModal();document.getElementById('cryptoOverlay').classList.add('on');}
 const urlParams=new URLSearchParams(window.location.search);
 const paidParam=urlParams.get('paid');
-if(paidParam){const cm={spin:100,scratch:600,lotto:1500,big:5000};const amt=cm[paidParam]||100;if(!myName){myName=prompt('Welcome! Enter your player name:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}myCredits+=amt;localStorage.setItem('cosmocredits',myCredits);updateCreditsDisplay();setTimeout(()=>showResult(true,'⭐','CREDITS ADDED!',amt.toLocaleString()+' Credits','Welcome '+myName+'! Start playing!'),500);}
+if(paidParam){const cm={'100':100,'500':500,'1000':1200,'5000':6000};const amt=cm[paidParam]||parseInt(paidParam)||100;if(!myName){myName=prompt('Welcome! Enter your player name:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}myCredits+=amt;localStorage.setItem('cosmocredits',myCredits);updateCreditsDisplay();setTimeout(()=>showResult(true,'⭐','CREDITS ADDED!',amt.toLocaleString()+' Credits','Welcome '+myName+'! Start playing!'),500);}
 const gameCost={spin:10,scratch:20,slots:10,lotto:50,coin:20,dice:10};
 const gameCfg={spin:{ico:'🎡',title:'Spin Wheel',desc:'Spin and win bonus leaderboard points!',win:'Win up to 50,000 bonus points'},scratch:{ico:'💎',title:'Scratch Card',desc:'Match 3 symbols to win points!',win:'Win up to 2,000 bonus points'},slots:{ico:'🎰',title:'Lucky Slots',desc:'Match 3 symbols for massive points!',win:'Match 3 = 10,000 bonus points'},lotto:{ico:'🎱',title:'Lotto Pick',desc:'Match 6 numbers for the jackpot!',win:'Match 6 = JACKPOT points'},coin:{ico:'🪙',title:'Coin Flip',desc:'Call it right to double your points!',win:'Correct = double points'},dice:{ico:'🎲',title:'Dice Duel',desc:'Roll doubles for 5x points!',win:'6+6 = 50x points'}};
 let curGame='',curChoice='';
@@ -377,27 +412,242 @@ const ng=document.getElementById('numGrid');let selectedNums=[];
 for(let i=1;i<=45;i++){const b=document.createElement('div');b.className='num-ball';b.textContent=i;b.onclick=()=>{if(b.classList.contains('selected')){b.classList.remove('selected');selectedNums=selectedNums.filter(n=>n!==i);}else if(selectedNums.length<6){b.classList.add('selected');selectedNums.push(i);}};ng.appendChild(b);}
 const diceFaces=['⚀','⚁','⚂','⚃','⚄','⚅'];
 function runGame(g,ch){
-  if(g==='scratch'){const prizes=[0,0,0,500,1000,2000,500,1000,200];const p=prizes[Math.floor(Math.random()*prizes.length)];document.querySelectorAll('.scratch-cell').forEach((c,i)=>setTimeout(()=>c.querySelector('.scratch-cover').style.opacity='0',i*120));setTimeout(()=>{if(p>0){addScore(p);showResult(true,'💎','MATCH!','+'+p+' pts','Points added!');}else showResult(false,'😞','NO MATCH','Try Again!','Keep scratching!');},1200);}
+  if(g==='scratch'){openScratchPlay();}
   else if(g==='slots'){const S=['🍒','⭐','💰','🍋','🔔','7️⃣','💎','🍀'],r1=S[Math.floor(Math.random()*8)],r2=S[Math.floor(Math.random()*8)],r3=Math.random()<.2?r1:S[Math.floor(Math.random()*8)];['r1','r2','r3'].forEach((id,i)=>setTimeout(()=>document.getElementById(id).textContent=[r1,r2,r3][i],500+i*200));setTimeout(()=>{if(r1===r2&&r2===r3){const pts=(r1==='7️⃣'||r1==='💎')?10000:5000;addScore(pts);showResult(true,'🎰','JACKPOT!','+'+pts.toLocaleString()+' pts','Three '+r1+'!');}else if(r1===r2||r2===r3||r1===r3){addScore(1000);showResult(true,'🎰','PAIR!','+1,000 pts','Matching pair!');}else showResult(false,'🎰','NO MATCH','Try Again!','So close!');},1500);}
   else if(g==='lotto'){const draw=[];while(draw.length<6){const n=Math.floor(Math.random()*45)+1;if(!draw.includes(n))draw.push(n);}const m=selectedNums.filter(n=>draw.includes(n)).length;if(m===6){addScore(100000);showResult(true,'🎱','JACKPOT!','+100,000 pts','ALL 6 MATCHED!');}else if(m===5){addScore(10000);showResult(true,'🎱','AMAZING!','+10,000 pts','5 matches!');}else if(m===4){addScore(2000);showResult(true,'🎱','GREAT!','+2,000 pts','4 matches!');}else if(m===3){addScore(500);showResult(true,'🎱','WINNER!','+500 pts','3 matches!');}else showResult(false,'🎱','NO MATCH','Draw: '+draw.join(', '),'The draw: '+draw.join(', '));}
   else if(g==='coin'){const res=Math.random()<.5?'heads':'tails';const coin=document.getElementById('coin');coin.style.setProperty('--end-rot',res==='heads'?'0deg':'180deg');coin.classList.add('flipping');setTimeout(()=>{coin.classList.remove('flipping');coin.style.transform='rotateY('+(res==='heads'?'0':'180')+'deg)';},1000);setTimeout(()=>{if(res===ch){addScore(400);showResult(true,'🪙','CORRECT!','+400 pts','Double points!');}else showResult(false,'🪙','WRONG!','Try Again!','It was '+res+'!');},1200);}
   else if(g==='dice'){const d1=Math.floor(Math.random()*6)+1,d2=Math.floor(Math.random()*6)+1;['die1','die2'].forEach((id,i)=>{const el=document.getElementById(id);el.classList.add('rolling');setTimeout(()=>{el.textContent=diceFaces[[d1,d2][i]-1];el.classList.remove('rolling');},500);});setTimeout(()=>{if(d1===6&&d2===6){addScore(5000);showResult(true,'🎲','DOUBLE SIX!','+5,000 pts','50x points!');}else if(d1===d2){addScore(500);showResult(true,'🎲','DOUBLES!','+500 pts','5x points!');}else if(d1+d2>=10){addScore(200);showResult(true,'🎲','HIGH ROLL!','+200 pts','2x points!');}else showResult(false,'🎲','LOW ROLL',d1+'+'+d2,'Try again!');},700);}
 }
-function showResult(won,ico,title,amount,msg){document.getElementById('rIco').textContent=ico;document.getElementById('rTitle').textContent=title;document.getElementById('rAmount').textContent=amount;document.getElementById('rMsg').textContent=msg;document.getElementById('resultOverlay').classList.add('on');if(won)launchConfetti();}
+function showResult(won,ico,title,amount,msg){document.getElementById('rIco').textContent=ico;document.getElementById('rTitle').textContent=title;document.getElementById('rAmount').textContent=amount;document.getElementById('rMsg').textContent=msg;document.getElementById('resultOverlay').classList.add('on');if(won){const pts=parseInt(String(amount).replace(/[^0-9]/g,''))||0;playSound(pts>=5000?'bigwin':'win');launchConfetti();}else{playSound('lose');}}
 function launchConfetti(){const cols=['#FFD700','#FF2D78','#00FFFF','#00FF88','#9B59FF'];for(let i=0;i<50;i++)setTimeout(()=>{const c=document.createElement('div');c.className='confetti-piece';c.style.cssText='left:'+Math.random()*100+'vw;width:'+(6+Math.random()*8)+'px;height:'+(6+Math.random()*8)+'px;background:'+cols[Math.floor(Math.random()*5)]+';border-radius:'+(Math.random()>.5?'50%':'2px')+';--dur:'+(3+Math.random()*2)+'s';document.body.appendChild(c);setTimeout(()=>c.remove(),5000);},i*40);}
 const lbData=[{name:'CosmicAli 🇵🇰',score:48750,prize:'£250'},{name:'StarPlayer 🇬🇧',score:42300,prize:'£150'},{name:'LuckyRavi 🇮🇳',score:38900,prize:'£100'},{name:'GalaxyWei 🇨🇳',score:35400,prize:''},{name:'SpinMaster 🇺🇸',score:29800,prize:''},{name:'NebulaSofia 🇦🇪',score:24500,prize:''},{name:'QuantumJay 🇨🇦',score:19200,prize:''},{name:'OrbitAisha 🇳🇬',score:15600,prize:''},{name:'VegasTom 🇦🇺',score:11300,prize:''},{name:'StarlightMei 🇨🇳',score:8700,prize:''}];
+function makeLbRow(p,i,medals){
+  const row=document.createElement('div');
+  row.className='lb-row';
+  if(i<3)row.style.background='rgba(255,215,0,.03)';
+  const isMe=myName&&p.name.includes(myName);
+  const rank=document.createElement('div');rank.style.fontSize='1.1rem';rank.textContent=medals[i]||'#'+(i+1);
+  const nameDiv=document.createElement('div');nameDiv.style.cssText='font-size:.88rem;color:rgba(255,255,255,.8)';
+  if(isMe){const b=document.createElement('b');b.style.color='var(--neon)';b.textContent=p.name+' \u2605YOU';nameDiv.appendChild(b);}
+  else nameDiv.textContent=p.name;
+  const scoreDiv=document.createElement('div');scoreDiv.style.cssText='font-family:Orbitron,monospace;font-size:.82rem;color:var(--neon)';scoreDiv.textContent=p.score.toLocaleString();
+  const prizeDiv=document.createElement('div');prizeDiv.style.cssText='color:var(--gold);font-weight:700;font-size:.82rem';prizeDiv.textContent=p.prize||'—';
+  row.append(rank,nameDiv,scoreDiv,prizeDiv);
+  return row;
+}
+function fillLb(id,limit){const el=document.getElementById(id);if(!el)return;el.innerHTML='';const medals=['🥇','🥈','🥉'];lbData.slice(0,limit).forEach((p,i)=>el.appendChild(makeLbRow(p,i,medals)));}
 function updateLeaderboard(){
   if(myName&&myScore>0){const ex=lbData.findIndex(p=>p.name.includes(myName));if(ex>=0)lbData[ex].score=myScore;else lbData.push({name:myName,score:myScore,prize:''});lbData.sort((a,b)=>b.score-a.score);if(lbData[0])lbData[0].prize='£250';if(lbData[1])lbData[1].prize='£150';if(lbData[2])lbData[2].prize='£100';}
-  const lb=document.getElementById('leaderboard');if(!lb)return;lb.innerHTML='';
-  const medals=['🥇','🥈','🥉'];
-  lbData.slice(0,10).forEach((p,i)=>{const row=document.createElement('div');row.className='lb-row';if(i<3)row.style.background='rgba(255,215,0,.03)';const isMe=myName&&p.name.includes(myName);row.innerHTML='<div style="font-size:1.1rem">'+(medals[i]||'#'+(i+1))+'</div><div style="font-size:.88rem;color:rgba(255,255,255,.8)">'+(isMe?'<b style="color:var(--neon)">'+p.name+' ★YOU</b>':p.name)+'</div><div style="font-family:Orbitron,monospace;font-size:.82rem;color:var(--neon)">'+p.score.toLocaleString()+'</div><div style="color:var(--gold);font-weight:700;font-size:.82rem">'+(p.prize||'—')+'</div>';lb.appendChild(row);});
+  fillLb('leaderboard',10);
+  fillLb('leaderboard-mini',5);
 }
 updateLeaderboard();
+function playLotto(){if(selectedNums.length<6){alert('Pick 6 numbers first! ('+selectedNums.length+'/6 selected)');return;}openGame('lotto');}
+function genRefLink(){
+  if(!myName){myName=prompt('Enter your name to get a referral link:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}
+  const code=btoa(encodeURIComponent(myName)).replace(/[^a-zA-Z0-9]/g,'').slice(0,10);
+  const link=window.location.origin+window.location.pathname+'?ref='+code;
+  document.getElementById('refLinkBox').textContent=link;
+  if(navigator.clipboard){navigator.clipboard.writeText(link).then(()=>{const btn=document.querySelector('[onclick="genRefLink()"]');const orig=btn.textContent;btn.textContent='✅ Copied!';setTimeout(()=>btn.textContent=orig,2000);}).catch(()=>{});}
+}
+(function applyRefBonus(){const rp=new URLSearchParams(window.location.search).get('ref');if(rp&&!localStorage.getItem('refApplied')){localStorage.setItem('refApplied','1');myCredits+=50;localStorage.setItem('cosmocredits',myCredits);updateCreditsDisplay();setTimeout(()=>showResult(true,'🎁','REFERRAL BONUS!','+50 Credits','You received 50 free credits from a friend!'),800);}})();
 const wnames=['Ali K.🇵🇰','Priya S.🇮🇳','James W.🇺🇸','Wei L.🇨🇳','Emma B.🇬🇧','Carlos M.🇧🇷','Fatima H.🇵🇰','Ravi P.🇮🇳','Omar S.🇸🇦','Sofia R.🇦🇪'];
 const wactions=['bought 600 credits','spun the wheel','won 5,000 pts','scratched a card','rolled doubles','flipped heads','bought 1500 credits','won 10,000 pts','climbed leaderboard','joined the game'];
 function addWinner(){const list=document.getElementById('winnersList');const div=document.createElement('div');div.className='winner-row';div.style.cssText='opacity:0;transition:opacity .4s';div.innerHTML='<span class="w-name">'+wnames[Math.floor(Math.random()*wnames.length)]+'</span><span class="w-prize">+'+Math.floor(Math.random()*9000+500).toLocaleString()+' pts</span><span class="w-game">'+wactions[Math.floor(Math.random()*wactions.length)]+'</span>';list.prepend(div);setTimeout(()=>div.style.opacity='1',50);if(list.children.length>8)list.removeChild(list.lastChild);}
 for(let i=0;i<6;i++)setTimeout(addWinner,i*200);
 setInterval(addWinner,2500);
+
+// ── SOUND EFFECTS (Web Audio API — no files needed) ──────────────────────────
+function playSound(type){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const master=ctx.createGain();master.gain.value=0.3;master.connect(ctx.destination);
+    const note=(freq,start,dur,type='sine',vol=1)=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.type=type;o.frequency.value=freq;
+      g.gain.setValueAtTime(vol,ctx.currentTime+start);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+start+dur);
+      o.connect(g);g.connect(master);
+      o.start(ctx.currentTime+start);o.stop(ctx.currentTime+start+dur);
+    };
+    if(type==='win'){note(523,0,.15);note(659,.12,.15);note(784,.24,.3);}
+    else if(type==='bigwin'){[523,659,784,1047].forEach((f,i)=>note(f,i*.1,.25));}
+    else if(type==='lose'){note(300,0,.08,'sawtooth');note(200,.1,.2,'sawtooth',0.5);}
+    else if(type==='click'){note(900,0,.04,'sine',0.4);}
+    else if(type==='spin'){note(180,0,.08,'triangle');note(120,.09,.1,'triangle',0.5);}
+  }catch(e){}
+}
+
+// ── CRYPTO PAYMENT ────────────────────────────────────────────────────────────
+// ⚠️  REPLACE THESE WITH YOUR ACTUAL WALLET ADDRESSES BEFORE GOING LIVE
+const CRYPTO_WALLETS={
+  eth:       '0xYOUR_ETH_WALLET_ADDRESS_HERE',
+  usdt_erc20:'0xYOUR_ETH_WALLET_ADDRESS_HERE',
+  usdt_trc20:'YOUR_TRON_WALLET_ADDRESS_HERE',
+  btc:       'YOUR_BTC_WALLET_ADDRESS_HERE'
+};
+const CRYPTO_PKG={
+  100: {credits:100,  gbp:'£1',  eth:'0.00035', usdt:'1.27',  btc:'0.000014'},
+  500: {credits:500,  gbp:'£5',  eth:'0.0018',  usdt:'6.35',  btc:'0.000071'},
+  1000:{credits:1200, gbp:'£10', eth:'0.0035',  usdt:'12.70', btc:'0.000143'},
+  5000:{credits:6000, gbp:'£25', eth:'0.009',   usdt:'31.75', btc:'0.000357'}
+};
+const CRYPTO_TABS_CFG=[
+  {id:'eth',       label:'⟠ ETH',        amtKey:'eth',  suffix:'ETH'},
+  {id:'usdt_erc20',label:'💵 USDT ERC-20',amtKey:'usdt', suffix:'USDT'},
+  {id:'usdt_trc20',label:'💵 USDT TRC-20',amtKey:'usdt', suffix:'USDT'},
+  {id:'btc',       label:'₿ BTC',         amtKey:'btc',  suffix:'BTC'}
+];
+let cryptoPkg=null,activeCryptoTab='eth';
+
+function renderCryptoModal(){
+  const pkg=cryptoPkg;
+  document.getElementById('cryptoTitle').textContent='Pay '+pkg.gbp+' → Get '+pkg.credits.toLocaleString()+' Credits';
+  document.getElementById('cryptoDesc').textContent='Rates are approximate · Credits added after your confirmation';
+  const tabsEl=document.getElementById('cryptoTabs');
+  tabsEl.innerHTML='';
+  CRYPTO_TABS_CFG.forEach(t=>{
+    const btn=document.createElement('button');
+    btn.className='crypto-tab'+(activeCryptoTab===t.id?' active':'');
+    btn.textContent=t.label;
+    btn.onclick=()=>{activeCryptoTab=t.id;renderCryptoModal();};
+    tabsEl.appendChild(btn);
+  });
+  const tab=CRYPTO_TABS_CFG.find(t=>t.id===activeCryptoTab);
+  const addr=CRYPTO_WALLETS[activeCryptoTab];
+  const amtStr=pkg[tab.amtKey]+' '+tab.suffix;
+  const content=document.getElementById('cryptoContent');
+  content.innerHTML='';
+  // Amount row
+  const amtWrap=document.createElement('div');
+  amtWrap.style.textAlign='center';amtWrap.style.marginBottom='10px';
+  const amtLbl=document.createElement('div');
+  amtLbl.style.cssText='font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;';
+  amtLbl.textContent='Send exactly';
+  const amtVal=document.createElement('div');
+  amtVal.style.cssText='font-family:Orbitron,monospace;font-size:1.4rem;color:var(--gold);';
+  amtVal.textContent=amtStr;
+  amtWrap.append(amtLbl,amtVal);
+  content.appendChild(amtWrap);
+  // Address
+  const addrLbl=document.createElement('div');
+  addrLbl.style.cssText='font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;';
+  addrLbl.textContent='To this address (tap to copy)';
+  const addrBox=document.createElement('div');
+  addrBox.className='crypto-addr';
+  addrBox.textContent=addr;
+  addrBox.addEventListener('click',()=>{
+    if(!navigator.clipboard)return;
+    navigator.clipboard.writeText(addr).then(()=>{
+      addrBox.textContent='✅ Copied!';
+      setTimeout(()=>addrBox.textContent=addr,1500);
+    }).catch(()=>{});
+  });
+  content.append(addrLbl,addrBox);
+  // MetaMask button (ETH only)
+  if(activeCryptoTab==='eth'&&window.ethereum){
+    const mmBtn=document.createElement('button');
+    mmBtn.className='modal-pay-btn';
+    mmBtn.style.cssText='background:linear-gradient(135deg,#f6851b,#e2761b);margin-top:8px;margin-bottom:8px;';
+    mmBtn.textContent='🦊 Pay with MetaMask';
+    mmBtn.onclick=payWithMetaMask;
+    content.appendChild(mmBtn);
+  }
+  const sep=document.createElement('div');
+  sep.style.cssText='text-align:center;margin:10px 0 8px;font-size:.75rem;color:rgba(255,255,255,.3);';
+  sep.textContent='— After sending —';
+  content.appendChild(sep);
+  const confirmBtn=document.createElement('button');
+  confirmBtn.className='modal-pay-btn';
+  confirmBtn.textContent="✅ I've Sent Payment — Add My Credits";
+  confirmBtn.onclick=confirmCryptoPayment;
+  content.appendChild(confirmBtn);
+}
+
+async function payWithMetaMask(){
+  try{
+    const accounts=await window.ethereum.request({method:'eth_requestAccounts'});
+    const weiHex='0x'+BigInt(Math.round(parseFloat(cryptoPkg.eth)*1e18)).toString(16);
+    await window.ethereum.request({method:'eth_sendTransaction',params:[{from:accounts[0],to:CRYPTO_WALLETS.eth,value:weiHex}]});
+    deliverCryptoCredits();
+  }catch(e){if(e.code!==4001)alert('MetaMask error: '+e.message);}
+}
+
+function confirmCryptoPayment(){
+  const tx=prompt('Paste your transaction hash for our records (optional):');
+  if(tx===null)return; // user hit Cancel
+  deliverCryptoCredits();
+}
+
+function deliverCryptoCredits(){
+  const amt=cryptoPkg.credits;
+  myCredits+=amt;
+  localStorage.setItem('cosmocredits',myCredits);
+  updateCreditsDisplay();
+  closeOverlay('cryptoOverlay');
+  showResult(true,'⭐','CREDITS ADDED!',amt.toLocaleString()+' Credits','Welcome '+myName+'! Start playing!');
+}
+
+// ── INTERACTIVE SCRATCH CARD ──────────────────────────────────────────────────
+const SCRATCH_SYMS=['🍋','🍒','💎','⭐','🎰','🍀','💰','🔔','7️⃣'];
+let scratchState={done:false,revealed:0,prize:0};
+
+function buildScratchGrid(win,prize){
+  const grid=[...SCRATCH_SYMS]; // start with one of each
+  if(win){
+    const winSym=prize>=2000?'💎':prize>=1000?'⭐':'🍒';
+    // Guarantee 3 of the win symbol; replace 2 random non-win positions
+    const others=grid.reduce((acc,s,i)=>{if(s!==winSym)acc.push(i);return acc;},[]);
+    for(let k=0;k<2;k++){const r=Math.floor(Math.random()*others.length);grid[others.splice(r,1)[0]]=winSym;}
+  }
+  // Shuffle
+  for(let i=grid.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[grid[i],grid[j]]=[grid[j],grid[i]];}
+  return grid;
+}
+
+function openScratchPlay(){
+  const prizes=[0,0,0,500,1000,2000];
+  const prize=prizes[Math.floor(Math.random()*prizes.length)];
+  const grid=buildScratchGrid(prize>0,prize);
+  scratchState={done:false,revealed:0,prize};
+  const container=document.getElementById('scratchPlayGrid');
+  container.innerHTML='';
+  grid.forEach(sym=>{
+    const cell=document.createElement('div');
+    cell.className='sp-cell';
+    const symEl=document.createElement('span');
+    symEl.textContent=sym;
+    const cover=document.createElement('div');
+    cover.className='sp-cover';
+    cover.textContent='?';
+    cell.append(symEl,cover);
+    const reveal=()=>{
+      if(cover.style.opacity==='0'||scratchState.done)return;
+      cover.style.opacity='0';
+      cover.style.pointerEvents='none';
+      scratchState.revealed++;
+      playSound('click');
+      document.getElementById('scratchProgress').textContent=scratchState.revealed+' / 9 scratched';
+      if(scratchState.revealed===9)finishScratch();
+    };
+    cell.addEventListener('click',reveal);
+    cell.addEventListener('touchstart',e=>{e.preventDefault();reveal();},{passive:false});
+    container.appendChild(cell);
+  });
+  document.getElementById('scratchProgress').textContent='0 / 9 scratched';
+  document.getElementById('scratchOverlay').classList.add('on');
+}
+
+function finishScratch(){
+  if(scratchState.done)return;
+  scratchState.done=true;
+  const p=scratchState.prize;
+  setTimeout(()=>{
+    closeOverlay('scratchOverlay');
+    if(p>0){addScore(p);showResult(true,'💎','MATCH!','+'+p+' pts','Points added to leaderboard!');}
+    else showResult(false,'😞','NO MATCH','Try Again!','Keep scratching!');
+  },500);
+}
 </script>
 <!-- MorvenWallet SDK + MRV HUD -->
 <script src="https://morven-sdk.vercel.app/morven.js"></script>
@@ -470,10 +720,12 @@ if (_origAddScore) {
 
 // Restore wallet session
 if (typeof morvenWallet !== 'undefined' && morvenWallet.isLoggedIn()) {
-  morvenWallet.getBalance().then(function(b) {
-    document.getElementById('mrv-hud-bal').textContent = b.mrv.toFixed(1) + ' MRV';
-    _mrvJwt = morvenWallet.getJwt();
-  }).catch(function(){});
+  _mrvJwt = morvenWallet.getJwt();
+  if (_mrvJwt) {
+    morvenWallet.getBalance(_mrvJwt).then(function(b) {
+      document.getElementById('mrv-hud-bal').textContent = b.mrv.toFixed(1) + ' MRV';
+    }).catch(function(){});
+  }
 }
 </script>
 </body>
