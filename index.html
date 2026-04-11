@@ -128,6 +128,23 @@ footer{position:relative;z-index:10;text-align:center;padding:28px 20px;border-t
 .sp-cell:hover{border-color:rgba(255,215,0,.6);}
 .sp-cover{position:absolute;inset:0;background:linear-gradient(135deg,#3a3a5c,#222240);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:rgba(255,255,255,.25);transition:opacity .25s;cursor:pointer;}
 .modal-crypto{max-width:460px;}
+.redeem-btn{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);border-radius:20px;padding:6px 13px;color:var(--green);font-size:.72rem;font-weight:700;cursor:pointer;letter-spacing:1px;transition:.2s;}
+.redeem-btn:hover{background:rgba(0,255,136,.2);}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.nav-credit-icon{font-size:.75rem;color:rgba(255,255,255,.4);}
+.nav-credit-label{font-size:.72rem;color:rgba(255,255,255,.35);}
+.modal-sm{max-width:400px;}
+.redeem-input{text-transform:uppercase;letter-spacing:2px;font-family:'Orbitron',monospace;}
+.admin-select{cursor:pointer;}
+.admin-code-hint{font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:2px;margin-bottom:8px;}
+.admin-code-note{font-size:.7rem;color:rgba(255,255,255,.3);margin-top:8px;}
+.reg-input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:12px 14px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:.95rem;margin-bottom:10px;outline:none;box-sizing:border-box;}
+.reg-input:focus{border-color:var(--gold);}
+.reg-input::placeholder{color:rgba(255,255,255,.3);}
+.admin-code-box{background:rgba(0,0,0,.5);border:2px solid var(--green);border-radius:12px;padding:18px;text-align:center;margin:14px 0;display:none;}
+.admin-code-box.show{display:block;}
+.admin-code-val{font-family:'Orbitron',monospace;font-size:1.5rem;color:var(--green);letter-spacing:4px;cursor:pointer;word-break:break-all;}
+.wa-note{background:rgba(0,255,136,.06);border:1px solid rgba(0,255,136,.2);border-radius:10px;padding:12px;font-size:.8rem;color:rgba(255,255,255,.6);text-align:center;line-height:1.6;margin-bottom:12px;}
 .modal-scratch{max-width:380px;}
 .scratch-subtitle{font-size:.8rem;color:rgba(255,255,255,.45);text-align:center;margin-bottom:14px;}
 .scratch-play-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
@@ -141,12 +158,15 @@ footer{position:relative;z-index:10;text-align:center;padding:28px 20px;border-t
 <body>
 <div id="bg"></div>
 <nav>
-  <div class="nav-logo">🌌 COSMOLOTTO</div>
-  <div class="nav-credits">
-    <span style="font-size:.75rem;color:rgba(255,255,255,.4);">⭐</span>
-    <span class="nav-credits-num" id="navCredits">0</span>
-    <span style="font-size:.72rem;color:rgba(255,255,255,.35);">credits</span>
-    <button class="nav-buy-btn" onclick="document.getElementById('buySection').scrollIntoView({behavior:'smooth'})">+ BUY</button>
+  <div class="nav-logo">&#x1F30C; COSMOLOTTO</div>
+  <div class="nav-right">
+    <button type="button" class="redeem-btn" onclick="openOverlay('redeemOverlay')">&#x1F3AB; Redeem Code</button>
+    <div class="nav-credits">
+      <span class="nav-credit-icon">&#x2B50;</span>
+      <span class="nav-credits-num" id="navCredits">0</span>
+      <span class="nav-credit-label">credits</span>
+      <button type="button" class="nav-buy-btn" onclick="document.getElementById('buySection').scrollIntoView({behavior:'smooth'})">+ BUY</button>
+    </div>
   </div>
 </nav>
 <div class="hero">
@@ -338,6 +358,48 @@ footer{position:relative;z-index:10;text-align:center;padding:28px 20px;border-t
     <div class="modal-note" style="margin-top:10px;">Credits deducted when you play · 18+ only · Play responsibly</div>
   </div>
 </div>
+<div class="overlay" id="regOverlay">
+  <div class="modal modal-sm">
+    <div class="modal-ico">&#x1F30C;</div>
+    <div class="modal-ttl">Welcome to CosmLotto</div>
+    <div class="modal-desc">Enter your details to play and receive prizes</div>
+    <input class="reg-input" id="regName" type="text" placeholder="Your name" maxlength="40"/>
+    <input class="reg-input" id="regWa" type="tel" placeholder="WhatsApp number (e.g. 03001234567)" maxlength="20"/>
+    <button type="button" class="modal-pay-btn" onclick="submitReg()">&#x1F3AE; Start Playing</button>
+    <div class="modal-note">Your WhatsApp is only used to deliver credits and prize payouts</div>
+  </div>
+</div>
+<div class="overlay" id="redeemOverlay">
+  <div class="modal modal-sm">
+    <button type="button" class="modal-x" onclick="closeOverlay('redeemOverlay')">&#x2715;</button>
+    <div class="modal-ico">&#x1F3AB;</div>
+    <div class="modal-ttl">Redeem Credit Code</div>
+    <div class="modal-desc">Enter the code we sent to your WhatsApp</div>
+    <input class="reg-input redeem-input" id="redeemInput" type="text" placeholder="e.g. COSMO-500-A3F9" maxlength="20"/>
+    <button type="button" class="modal-pay-btn" onclick="redeemCode()">&#x2705; Apply Code</button>
+    <div class="modal-note" id="redeemMsg"></div>
+  </div>
+</div>
+<div class="overlay" id="adminOverlay">
+  <div class="modal modal-sm">
+    <button type="button" class="modal-x" onclick="closeOverlay('adminOverlay')">&#x2715;</button>
+    <div class="modal-ico">&#x1F511;</div>
+    <div class="modal-ttl">Admin Panel</div>
+    <div class="modal-desc">Generate a credit code to send to a player</div>
+    <select class="reg-input admin-select" id="adminAmt">
+      <option value="100">100 credits (£1)</option>
+      <option value="500">500 credits (£5)</option>
+      <option value="1200">1200 credits (£10)</option>
+      <option value="6000">6000 credits (£25)</option>
+    </select>
+    <button type="button" class="modal-pay-btn" onclick="adminGenCode()">&#x26A1; Generate Code</button>
+    <div class="admin-code-box" id="adminCodeBox">
+      <div class="admin-code-hint">SEND THIS TO THE PLAYER</div>
+      <div class="admin-code-val" id="adminCodeVal" onclick="copyAdminCode()"></div>
+      <div class="admin-code-note">Tap to copy &#xB7; Valid today only</div>
+    </div>
+  </div>
+</div>
 <div class="overlay" id="cryptoOverlay">
   <div class="modal modal-crypto">
     <button class="modal-x" onclick="closeOverlay('cryptoOverlay')">✕</button>
@@ -379,7 +441,7 @@ let myScore=parseInt(localStorage.getItem('cosmoscore')||'0');
 let myName=localStorage.getItem('cosmoname')||'';
 function updateCreditsDisplay(){document.getElementById('navCredits').textContent=myCredits.toLocaleString();}
 updateCreditsDisplay();
-function buyCredits(amount){if(!myName){myName=prompt('Enter your name:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}cryptoPkg=CRYPTO_PKG[amount]||CRYPTO_PKG[100];activeCryptoTab='eth';renderCryptoModal();document.getElementById('cryptoOverlay').classList.add('on');}
+function buyCredits(amount){if(!myName||!myWa){openOverlay('regOverlay');return;}cryptoPkg=CRYPTO_PKG[amount]||CRYPTO_PKG[100];activeCryptoTab='eth';renderCryptoModal();openOverlay('cryptoOverlay');}
 const urlParams=new URLSearchParams(window.location.search);
 const paidParam=urlParams.get('paid');
 if(paidParam){const cm={'100':100,'500':500,'1000':1200,'5000':6000};const amt=cm[paidParam]||parseInt(paidParam)||100;if(!myName){myName=prompt('Welcome! Enter your player name:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}myCredits+=amt;localStorage.setItem('cosmocredits',myCredits);updateCreditsDisplay();setTimeout(()=>showResult(true,'⭐','CREDITS ADDED!',amt.toLocaleString()+' Credits','Welcome '+myName+'! Start playing!'),500);}
@@ -387,6 +449,7 @@ const gameCost={spin:10,scratch:20,slots:10,lotto:50,coin:20,dice:10};
 const gameCfg={spin:{ico:'🎡',title:'Spin Wheel',desc:'Spin and win bonus leaderboard points!',win:'Win up to 50,000 bonus points'},scratch:{ico:'💎',title:'Scratch Card',desc:'Match 3 symbols to win points!',win:'Win up to 2,000 bonus points'},slots:{ico:'🎰',title:'Lucky Slots',desc:'Match 3 symbols for massive points!',win:'Match 3 = 10,000 bonus points'},lotto:{ico:'🎱',title:'Lotto Pick',desc:'Match 6 numbers for the jackpot!',win:'Match 6 = JACKPOT points'},coin:{ico:'🪙',title:'Coin Flip',desc:'Call it right to double your points!',win:'Correct = double points'},dice:{ico:'🎲',title:'Dice Duel',desc:'Roll doubles for 5x points!',win:'6+6 = 50x points'}};
 let curGame='',curChoice='';
 function openGame(game,choice=''){
+  if(!myName||!myWa){openOverlay('regOverlay');return;}
   if(myCredits<gameCost[game]){showResult(false,'⭐','NEED CREDITS','Buy a Pack!','You need '+gameCost[game]+' credits. Buy a pack to keep playing!');setTimeout(()=>document.getElementById('buySection').scrollIntoView({behavior:'smooth'}),1500);return;}
   curGame=game;curChoice=choice;const c=gameCfg[game];
   document.getElementById('mIco').textContent=c.ico;
@@ -573,12 +636,24 @@ function renderCryptoModal(){
     content.appendChild(mmBtn);
   }
   const sep=document.createElement('div');
-  sep.style.cssText='text-align:center;margin:10px 0 8px;font-size:.75rem;color:rgba(255,255,255,.3);';
+  sep.style.cssText='text-align:center;margin:10px 0 6px;font-size:.75rem;color:rgba(255,255,255,.3);';
   sep.textContent='— After sending —';
   content.appendChild(sep);
+  const wNote=document.createElement('div');
+  wNote.className='wa-note';
+  wNote.textContent='Enter your transaction ID or screenshot description below, then tap the button. We\'ll WhatsApp your credits within 15 minutes.';
+  content.appendChild(wNote);
+  const txInp=document.createElement('input');
+  txInp.className='reg-input';
+  txInp.id='txInput';
+  txInp.type='text';
+  txInp.placeholder='Transaction ID or reference (optional)';
+  txInp.maxLength=80;
+  content.appendChild(txInp);
   const confirmBtn=document.createElement('button');
   confirmBtn.className='modal-pay-btn';
-  confirmBtn.textContent="✅ I've Sent Payment — Add My Credits";
+  confirmBtn.style.cssText='background:linear-gradient(135deg,#25d366,#128c7e);';
+  confirmBtn.textContent="📲 Send Payment Proof via WhatsApp";
   confirmBtn.onclick=confirmCryptoPayment;
   content.appendChild(confirmBtn);
 }
@@ -666,6 +741,110 @@ function finishScratch(){
     if(p>0){addScore(p);showResult(true,'💎','MATCH!','+'+p+' pts','Points added to leaderboard!');}
     else showResult(false,'😞','NO MATCH','Try Again!','Keep scratching!');
   },500);
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function openOverlay(id){document.getElementById(id).classList.add('on');}
+
+// ── REGISTRATION ──────────────────────────────────────────────────────────────
+let myWa=localStorage.getItem('cosmowa')||'';
+(function checkReg(){
+  if(!myName||!myWa) setTimeout(()=>openOverlay('regOverlay'),800);
+})();
+function submitReg(){
+  const n=document.getElementById('regName').value.trim();
+  const w=document.getElementById('regWa').value.trim();
+  if(!n||!w){alert('Please enter both your name and WhatsApp number.');return;}
+  myName=n; myWa=w;
+  localStorage.setItem('cosmoname',myName);
+  localStorage.setItem('cosmowa',myWa);
+  closeOverlay('regOverlay');
+}
+
+// ── ADMIN PANEL ───────────────────────────────────────────────────────────────
+// ⚠️  Change this password before going live
+const ADMIN_PASS='cosmo2026';
+// ⚠️  Change this secret — keep it private, never share it
+const COSMO_SECRET='CosmoLotto-SecretKey-2026-ChangeMe';
+// ⚠️  Your WhatsApp number with country code, no + or spaces (e.g. 923001234567)
+const ADMIN_WA='923001234567';
+
+(function checkAdmin(){
+  if(new URLSearchParams(window.location.search).get('admin')===ADMIN_PASS)
+    setTimeout(()=>openOverlay('adminOverlay'),400);
+})();
+
+async function hmacCode(amount){
+  const today=new Date().toISOString().slice(0,10);
+  const msg=amount+':'+today;
+  const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(COSMO_SECRET),{name:'HMAC',hash:'SHA-256'},false,['sign']);
+  const sig=await crypto.subtle.sign('HMAC',key,new TextEncoder().encode(msg));
+  const hex=Array.from(new Uint8Array(sig)).slice(0,4).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+  return 'COSMO-'+amount+'-'+hex;
+}
+
+async function adminGenCode(){
+  const amt=document.getElementById('adminAmt').value;
+  const code=await hmacCode(amt);
+  document.getElementById('adminCodeVal').textContent=code;
+  document.getElementById('adminCodeBox').classList.add('show');
+}
+
+function copyAdminCode(){
+  const code=document.getElementById('adminCodeVal').textContent;
+  if(!navigator.clipboard)return;
+  navigator.clipboard.writeText(code).then(()=>{
+    const el=document.getElementById('adminCodeVal');
+    el.textContent='✅ Copied!';
+    setTimeout(()=>el.textContent=code,1500);
+  }).catch(()=>{});
+}
+
+// ── CODE REDEMPTION ───────────────────────────────────────────────────────────
+async function redeemCode(){
+  const raw=document.getElementById('redeemInput').value.trim().toUpperCase();
+  const msg=document.getElementById('redeemMsg');
+  if(!raw){msg.textContent='Please enter a code.';return;}
+  if(localStorage.getItem('usedCode:'+raw)){msg.textContent='This code has already been used.';return;}
+  // Parse: COSMO-AMOUNT-HEX
+  const parts=raw.split('-');
+  if(parts.length!==3||parts[0]!=='COSMO'){msg.textContent='Invalid code format.';return;}
+  const amount=parseInt(parts[1]);
+  if(isNaN(amount)||amount<=0){msg.textContent='Invalid code.';return;}
+  const expected=await hmacCode(amount);
+  if(raw!==expected){msg.textContent='Code is invalid or expired (codes expire daily).';return;}
+  // Valid — grant credits
+  localStorage.setItem('usedCode:'+raw,'1');
+  myCredits+=amount;
+  localStorage.setItem('cosmocredits',myCredits);
+  updateCreditsDisplay();
+  closeOverlay('redeemOverlay');
+  document.getElementById('redeemInput').value='';
+  msg.textContent='';
+  showResult(true,'⭐','CREDITS ADDED!',amount.toLocaleString()+' Credits','Enjoy playing, '+myName+'!');
+}
+
+// ── PAYMENT → WHATSAPP SUBMISSION ─────────────────────────────────────────────
+function confirmCryptoPayment(){
+  const tx=document.getElementById('txInput')?document.getElementById('txInput').value.trim():'';
+  const tab=CRYPTO_TABS_CFG.find(t=>t.id===activeCryptoTab);
+  const pkg=cryptoPkg;
+  const amtStr=pkg[tab.amtKey]+' '+tab.suffix;
+  const method=tab.label.replace(/[^\w\s]/g,'').trim();
+  const lines=[
+    'COSMOLOTTO PAYMENT',
+    'Name: '+myName,
+    'WhatsApp: '+myWa,
+    'Package: '+pkg.gbp+' ('+pkg.credits+' credits)',
+    'Method: '+method,
+    'Amount sent: '+amtStr,
+    tx?'TX Ref: '+tx:'',
+    'Time: '+new Date().toLocaleString()
+  ].filter(Boolean).join('\n');
+  const waUrl='https://wa.me/'+ADMIN_WA+'?text='+encodeURIComponent(lines);
+  closeOverlay('cryptoOverlay');
+  window.open(waUrl,'_blank');
+  showResult(true,'📲','MESSAGE SENT!','Credits coming soon','We\'ll WhatsApp your code within 15 min: '+myWa);
 }
 </script>
 <!-- MorvenWallet SDK + MRV HUD -->
