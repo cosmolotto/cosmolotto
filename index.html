@@ -362,11 +362,10 @@ footer{position:relative;z-index:10;text-align:center;padding:28px 20px;border-t
   <div class="modal modal-sm">
     <div class="modal-ico">&#x1F30C;</div>
     <div class="modal-ttl">Welcome to CosmLotto</div>
-    <div class="modal-desc">Enter your details to play and receive prizes</div>
+    <div class="modal-desc">Enter your name to get started</div>
     <input class="reg-input" id="regName" type="text" placeholder="Your name" maxlength="40"/>
-    <input class="reg-input" id="regWa" type="tel" placeholder="WhatsApp number (e.g. 03001234567)" maxlength="20"/>
     <button type="button" class="modal-pay-btn" onclick="submitReg()">&#x1F3AE; Start Playing</button>
-    <div class="modal-note">Your WhatsApp is only used to deliver credits and prize payouts</div>
+    <div class="modal-note">18+ only &#xB7; Play responsibly</div>
   </div>
 </div>
 <div class="overlay" id="redeemOverlay">
@@ -374,7 +373,7 @@ footer{position:relative;z-index:10;text-align:center;padding:28px 20px;border-t
     <button type="button" class="modal-x" onclick="closeOverlay('redeemOverlay')">&#x2715;</button>
     <div class="modal-ico">&#x1F3AB;</div>
     <div class="modal-ttl">Redeem Credit Code</div>
-    <div class="modal-desc">Enter the code we sent to your WhatsApp</div>
+    <div class="modal-desc">Enter the code sent to you by the admin</div>
     <input class="reg-input redeem-input" id="redeemInput" type="text" placeholder="e.g. COSMO-500-A3F9" maxlength="20"/>
     <button type="button" class="modal-pay-btn" onclick="redeemCode()">&#x2705; Apply Code</button>
     <div class="modal-note" id="redeemMsg"></div>
@@ -441,7 +440,7 @@ let myScore=parseInt(localStorage.getItem('cosmoscore')||'0');
 let myName=localStorage.getItem('cosmoname')||'';
 function updateCreditsDisplay(){document.getElementById('navCredits').textContent=myCredits.toLocaleString();}
 updateCreditsDisplay();
-function buyCredits(amount){if(!myName||!myWa){openOverlay('regOverlay');return;}cryptoPkg=CRYPTO_PKG[amount]||CRYPTO_PKG[100];activeCryptoTab='eth';renderCryptoModal();openOverlay('cryptoOverlay');}
+function buyCredits(amount){if(!myName){openOverlay('regOverlay');return;}cryptoPkg=CRYPTO_PKG[amount]||CRYPTO_PKG[100];activeCryptoTab='eth';renderCryptoModal();openOverlay('cryptoOverlay');}
 const urlParams=new URLSearchParams(window.location.search);
 const paidParam=urlParams.get('paid');
 if(paidParam){const cm={'100':100,'500':500,'1000':1200,'5000':6000};const amt=cm[paidParam]||parseInt(paidParam)||100;if(!myName){myName=prompt('Welcome! Enter your player name:')||'Player'+Math.floor(Math.random()*9999);localStorage.setItem('cosmoname',myName);}myCredits+=amt;localStorage.setItem('cosmocredits',myCredits);updateCreditsDisplay();setTimeout(()=>showResult(true,'⭐','CREDITS ADDED!',amt.toLocaleString()+' Credits','Welcome '+myName+'! Start playing!'),500);}
@@ -449,7 +448,7 @@ const gameCost={spin:10,scratch:20,slots:10,lotto:50,coin:20,dice:10};
 const gameCfg={spin:{ico:'🎡',title:'Spin Wheel',desc:'Spin and win bonus leaderboard points!',win:'Win up to 50,000 bonus points'},scratch:{ico:'💎',title:'Scratch Card',desc:'Match 3 symbols to win points!',win:'Win up to 2,000 bonus points'},slots:{ico:'🎰',title:'Lucky Slots',desc:'Match 3 symbols for massive points!',win:'Match 3 = 10,000 bonus points'},lotto:{ico:'🎱',title:'Lotto Pick',desc:'Match 6 numbers for the jackpot!',win:'Match 6 = JACKPOT points'},coin:{ico:'🪙',title:'Coin Flip',desc:'Call it right to double your points!',win:'Correct = double points'},dice:{ico:'🎲',title:'Dice Duel',desc:'Roll doubles for 5x points!',win:'6+6 = 50x points'}};
 let curGame='',curChoice='';
 function openGame(game,choice=''){
-  if(!myName||!myWa){openOverlay('regOverlay');return;}
+  if(!myName){openOverlay('regOverlay');return;}
   if(myCredits<gameCost[game]){showResult(false,'⭐','NEED CREDITS','Buy a Pack!','You need '+gameCost[game]+' credits. Buy a pack to keep playing!');setTimeout(()=>document.getElementById('buySection').scrollIntoView({behavior:'smooth'}),1500);return;}
   curGame=game;curChoice=choice;const c=gameCfg[game];
   document.getElementById('mIco').textContent=c.ico;
@@ -639,23 +638,17 @@ function renderCryptoModal(){
   sep.style.cssText='text-align:center;margin:10px 0 6px;font-size:.75rem;color:rgba(255,255,255,.3);';
   sep.textContent='— After sending —';
   content.appendChild(sep);
-  const wNote=document.createElement('div');
-  wNote.className='wa-note';
-  wNote.textContent='Enter your transaction ID or screenshot description below, then tap the button. We\'ll WhatsApp your credits within 15 minutes.';
-  content.appendChild(wNote);
-  const txInp=document.createElement('input');
-  txInp.className='reg-input';
-  txInp.id='txInput';
-  txInp.type='text';
-  txInp.placeholder='Transaction ID or reference (optional)';
-  txInp.maxLength=80;
-  content.appendChild(txInp);
-  const confirmBtn=document.createElement('button');
-  confirmBtn.className='modal-pay-btn';
-  confirmBtn.style.cssText='background:linear-gradient(135deg,#25d366,#128c7e);';
-  confirmBtn.textContent="📲 Send Payment Proof via WhatsApp";
-  confirmBtn.onclick=confirmCryptoPayment;
-  content.appendChild(confirmBtn);
+  const contactNote=document.createElement('div');
+  contactNote.className='wa-note';
+  contactNote.textContent='Send your payment screenshot to us and we\'ll reply with your credit code within 15 minutes. Then hit "Redeem Code" in the top nav.';
+  content.appendChild(contactNote);
+  const waBtn=document.createElement('a');
+  waBtn.className='modal-pay-btn';
+  waBtn.style.cssText='display:block;text-align:center;text-decoration:none;background:linear-gradient(135deg,#25d366,#128c7e);padding:15px;border-radius:12px;color:#fff;font-weight:900;font-size:1.05rem;letter-spacing:2px;margin-bottom:8px;cursor:pointer;';
+  waBtn.textContent='📲 Message Us on WhatsApp';
+  waBtn.href='https://wa.me/'+ADMIN_WA+'?text='+encodeURIComponent('Hi, I paid for CosmLotto credits. Package: '+pkg.gbp+'. Please send me my code.');
+  waBtn.target='_blank';
+  content.appendChild(waBtn);
 }
 
 async function payWithMetaMask(){
@@ -747,17 +740,14 @@ function finishScratch(){
 function openOverlay(id){document.getElementById(id).classList.add('on');}
 
 // ── REGISTRATION ──────────────────────────────────────────────────────────────
-let myWa=localStorage.getItem('cosmowa')||'';
 (function checkReg(){
-  if(!myName||!myWa) setTimeout(()=>openOverlay('regOverlay'),800);
+  if(!myName) setTimeout(()=>openOverlay('regOverlay'),800);
 })();
 function submitReg(){
   const n=document.getElementById('regName').value.trim();
-  const w=document.getElementById('regWa').value.trim();
-  if(!n||!w){alert('Please enter both your name and WhatsApp number.');return;}
-  myName=n; myWa=w;
+  if(!n){alert('Please enter your name.');return;}
+  myName=n;
   localStorage.setItem('cosmoname',myName);
-  localStorage.setItem('cosmowa',myWa);
   closeOverlay('regOverlay');
 }
 
@@ -824,28 +814,6 @@ async function redeemCode(){
   showResult(true,'⭐','CREDITS ADDED!',amount.toLocaleString()+' Credits','Enjoy playing, '+myName+'!');
 }
 
-// ── PAYMENT → WHATSAPP SUBMISSION ─────────────────────────────────────────────
-function confirmCryptoPayment(){
-  const tx=document.getElementById('txInput')?document.getElementById('txInput').value.trim():'';
-  const tab=CRYPTO_TABS_CFG.find(t=>t.id===activeCryptoTab);
-  const pkg=cryptoPkg;
-  const amtStr=pkg[tab.amtKey]+' '+tab.suffix;
-  const method=tab.label.replace(/[^\w\s]/g,'').trim();
-  const lines=[
-    'COSMOLOTTO PAYMENT',
-    'Name: '+myName,
-    'WhatsApp: '+myWa,
-    'Package: '+pkg.gbp+' ('+pkg.credits+' credits)',
-    'Method: '+method,
-    'Amount sent: '+amtStr,
-    tx?'TX Ref: '+tx:'',
-    'Time: '+new Date().toLocaleString()
-  ].filter(Boolean).join('\n');
-  const waUrl='https://wa.me/'+ADMIN_WA+'?text='+encodeURIComponent(lines);
-  closeOverlay('cryptoOverlay');
-  window.open(waUrl,'_blank');
-  showResult(true,'📲','MESSAGE SENT!','Credits coming soon','We\'ll WhatsApp your code within 15 min: '+myWa);
-}
 </script>
 <!-- MorvenWallet SDK + MRV HUD -->
 <script src="https://morven-sdk.vercel.app/morven.js"></script>
