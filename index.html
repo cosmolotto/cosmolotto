@@ -485,22 +485,26 @@ const CRYPTO_WALLETS={
   usdt_erc20:'0xYOUR_ETH_WALLET_ADDRESS_HERE',
   usdt_trc20:'YOUR_TRON_WALLET_ADDRESS_HERE',
   btc:       'YOUR_BTC_WALLET_ADDRESS_HERE',
-  easypaisa: '03XX-YOUR-EASYPAISA-NUMBER'   // ⚠️ replace with your EP mobile number
+  easypaisa: '03XX-YOUR-EASYPAISA-NUMBER',  // ⚠️ replace
+  jazzcash:  '03XX-YOUR-JAZZCASH-NUMBER',   // ⚠️ replace
+  upi:       'yourname@upi'                 // ⚠️ replace with your UPI ID
 };
-// EasyPaisa account holder name shown alongside the number
-const EP_ACCOUNT_NAME='YOUR_ACCOUNT_NAME_HERE'; // ⚠️ replace with your real name
+// Account holder name shown for mobile wallet tabs
+const MOBILE_ACCOUNT_NAME='YOUR_ACCOUNT_NAME_HERE'; // ⚠️ replace with your real name
 const CRYPTO_PKG={
-  100: {credits:100,  gbp:'£1',  eth:'0.00035', usdt:'1.27',  btc:'0.000014', pkr:'350'},
-  500: {credits:500,  gbp:'£5',  eth:'0.0018',  usdt:'6.35',  btc:'0.000071', pkr:'1,750'},
-  1000:{credits:1200, gbp:'£10', eth:'0.0035',  usdt:'12.70', btc:'0.000143', pkr:'3,500'},
-  5000:{credits:6000, gbp:'£25', eth:'0.009',   usdt:'31.75', btc:'0.000357', pkr:'8,750'}
+  100: {credits:100,  gbp:'£1',  eth:'0.00035', usdt:'1.27',  btc:'0.000014', pkr:'350',   inr:'107'},
+  500: {credits:500,  gbp:'£5',  eth:'0.0018',  usdt:'6.35',  btc:'0.000071', pkr:'1,750', inr:'535'},
+  1000:{credits:1200, gbp:'£10', eth:'0.0035',  usdt:'12.70', btc:'0.000143', pkr:'3,500', inr:'1,070'},
+  5000:{credits:6000, gbp:'£25', eth:'0.009',   usdt:'31.75', btc:'0.000357', pkr:'8,750', inr:'2,675'}
 };
 const CRYPTO_TABS_CFG=[
   {id:'eth',       label:'⟠ ETH',        amtKey:'eth',  suffix:'ETH'},
   {id:'usdt_erc20',label:'💵 USDT ERC-20',amtKey:'usdt', suffix:'USDT'},
   {id:'usdt_trc20',label:'💵 USDT TRC-20',amtKey:'usdt', suffix:'USDT'},
   {id:'btc',       label:'₿ BTC',         amtKey:'btc',  suffix:'BTC'},
-  {id:'easypaisa', label:'💚 EasyPaisa',   amtKey:'pkr',  suffix:'PKR'}
+  {id:'easypaisa', label:'💚 EasyPaisa',  amtKey:'pkr', suffix:'PKR'},
+  {id:'jazzcash',  label:'🟣 JazzCash',   amtKey:'pkr', suffix:'PKR'},
+  {id:'upi',       label:'🇮🇳 UPI',        amtKey:'inr', suffix:'INR'}
 ];
 let cryptoPkg=null,activeCryptoTab='eth';
 
@@ -534,10 +538,11 @@ function renderCryptoModal(){
   amtWrap.append(amtLbl,amtVal);
   content.appendChild(amtWrap);
   // Address / account number
-  const isEP=activeCryptoTab==='easypaisa';
+  const isMobileWallet=['easypaisa','jazzcash','upi'].includes(activeCryptoTab);
+  const isUPI=activeCryptoTab==='upi';
   const addrLbl=document.createElement('div');
   addrLbl.style.cssText='font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;';
-  addrLbl.textContent=isEP?'Send to EasyPaisa number (tap to copy)':'To this address (tap to copy)';
+  addrLbl.textContent=isUPI?'Send to UPI ID (tap to copy)':isMobileWallet?'Send to mobile number (tap to copy)':'To this address (tap to copy)';
   const addrBox=document.createElement('div');
   addrBox.className='crypto-addr';
   addrBox.textContent=addr;
@@ -549,13 +554,13 @@ function renderCryptoModal(){
     }).catch(()=>{});
   });
   content.append(addrLbl,addrBox);
-  if(isEP){
+  if(isMobileWallet){
     const nameLbl=document.createElement('div');
     nameLbl.style.cssText='font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;';
     nameLbl.textContent='Account name';
     const nameVal=document.createElement('div');
     nameVal.style.cssText='font-family:Orbitron,monospace;font-size:.85rem;color:rgba(255,255,255,.75);margin-bottom:10px;word-break:break-all;';
-    nameVal.textContent=EP_ACCOUNT_NAME;
+    nameVal.textContent=MOBILE_ACCOUNT_NAME;
     content.append(nameLbl,nameVal);
   }
   // MetaMask button (ETH only)
